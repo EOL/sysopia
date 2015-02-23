@@ -1,0 +1,33 @@
+!!! 5
+%html
+  %head
+    %title
+      SysTube
+    %link{ rel: 'stylesheet', href: '/css/app.css', type: 'text/css' }
+
+    %link{ rel: 'stylesheet', href: 'http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css', type: 'text/css' } 
+    %script{ src: 'http://code.jquery.com/jquery-1.9.1.js' }
+    %script{ src: 'http://code.jquery.com/ui/1.10.3/jquery-ui.js' }
+    %script{ src: 'https://www.google.com/jsapi' }
+  %body
+    .container
+      .header
+        %h1{ id: 'title' }
+          %a{ href: '/' } SysTube
+        .menu
+          %ul
+            %li
+              %a{ href: '/' } Home
+    .container
+    .container
+      #content
+        = yield
+
+    .container
+      #footer
+        %a{ href: 'https://github.com/EOL/seabase/blob/master/LICENSE' } 
+          MIT License
+        | 
+        %a{ href: 'https://github.com/EOL/seabase/releases' }
+          Version
+          = SysTube.version

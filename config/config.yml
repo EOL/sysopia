@@ -1,0 +1,21 @@
+session_secret: <%= ENV["SYSTUBE_SESSION_SECRET"] %>
+database:
+  common: &common
+    adapter: mysql2
+    encoding: utf8
+    reconnect: true
+    host: <%= ENV["SYSTUBE_DB_HOST"] %>
+    username: <%= ENV["SYSTUBE_DB_USERNAME"] %>
+    password: <%= ENV["SYSTUBE_DB_PASSWORD"] %>
+
+  development:
+    <<: *common
+    database: seabase_dev
+
+  test:
+    <<: *common
+    database: seabase_test
+
+  production:
+    <<: *common
+    database: seabase

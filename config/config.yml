@@ -10,12 +10,12 @@ database:
 
   development:
     <<: *common
-    database: seabase_dev
+    database: systube_dev
 
   test:
     <<: *common
-    database: seabase_test
+    database: systube_test
 
   production:
     <<: *common
-    database: seabase
+    database: systube

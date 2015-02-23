@@ -1,3 +1,4 @@
+require 'erb'
 require "ostruct"
 require "yaml"
 require "active_record"
@@ -9,20 +10,12 @@ module SysTube
     @env ||= ENV["SYSTUBE_ENV"] ? ENV["SYSTUBE_ENV"].to_sym : :development
   end
 
-  def self.env=(env)
-    if [:development, :test, :production].include?(env)
-      @env = env
-    else
-      fail TypeError, "Wrong environment"
-    end
-  end
-
   def self.db_conf
-    @db_conf ||= new_db_conf
+    @db_conf ||= conf.database
   end
 
   def self.conf
-    @conf ||= new_conf
+    @conf ||= init_conf
   end
 
   def self.db_connection
@@ -31,16 +24,33 @@ module SysTube
     ActiveRecord::Base.establish_connection(db_conf[env.to_s])
   end
 
-  private
-
-  def self.new_db_conf
-    require 'byebug'; byebug
-    @db_conf = new_conf.database
+  def self.read_env
+    if ENV["SYSTUBE"]
+      open(File.join(__dir__, ENV["SYSTUBE"])).each do |l|
+        key, val = l.strip.split("=")
+        ENV[key] = val if key && val
+      end
+    end
+    self.check_env
   end
 
-  def self.new_conf
+  def self.check_env
+    e_required = open(File.join(__dir__, "config", "env.sh")).map do |l|
+      key, val = l.strip.split("=")
+      val && key
+    end.compact
+    e_real = ENV.keys.select { |k| k =~ /^SYSTUBE_/ }
+    missing = e_required - e_real
+    extra = e_real - e_required
+    raise("Missing env variables: #{missing.join(', ')}") unless missing.empty?
+    raise("Extra env variables: #{extra.join(', ')}") unless extra.empty?
+  end
+
+  private
+
+  def self.init_conf
     raw_conf = File.read(File.join(__dir__, "config", "config.yml"))
-    conf = YAML.load(raw_conf)
+    conf = YAML.load(ERB.new(raw_conf).result)
     OpenStruct.new(
       session_secret:   conf["session_secret"],
       database:         conf["database"]
@@ -53,4 +63,5 @@ Dir.glob(File.join(File.dirname(__FILE__), "models", "**", "*.rb")) do |app|
   require File.basename(app, ".*")
 end
 
+SysTube.read_env
 SysTube.db_connection

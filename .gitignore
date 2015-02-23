@@ -1,5 +1,6 @@
 *.gem
 *.rbc
+/myenv.sh
 /.config
 /coverage/
 /InstalledFiles

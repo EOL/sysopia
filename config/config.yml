@@ -1,4 +1,5 @@
 session_secret: <%= ENV["SYSTUBE_SESSION_SECRET"] %>
+timezone_offset: <%= ENV["SYSTUBE_TIMEZONE_OFFSET"] %>
 database:
   common: &common
     adapter: mysql2

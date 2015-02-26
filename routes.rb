@@ -3,9 +3,12 @@ get "/css/:filename.css" do
 end
 
 get "/" do
-  stat = "load_one"
   data = Stat.last_day
-  @stat_data = SysTube::ChartTable.new(data).table(stat)
+  ct = SysTube::ChartTable.new(data)
+  @mem_data = ct.table("memory_taken")
+  @load_data = ct.table("load_one")
+  @ioread_data = ct.table("io_read")
+  @iowrite_data = ct.table("io_write")
   haml :home
 end
 

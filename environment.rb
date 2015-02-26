@@ -53,7 +53,8 @@ module SysTube
     conf = YAML.load(ERB.new(raw_conf).result)
     OpenStruct.new(
       session_secret:   conf["session_secret"],
-      database:         conf["database"]
+      database:         conf["database"],
+      timezone_offset:  conf["timezone_offset"]
     )
   end
 end

@@ -20,7 +20,7 @@ class Stat < ActiveRecord::Base
         return Stat.where("timestamp > #{period}").order(:comp_id).
           select("id, comp_id, timestamp, #{stat}")
       else
-        return Stat.where("timestamp > #{period}")
+        return Stat.where("timestamp > #{period}").order(:comp_id)
       end
     end
   end 

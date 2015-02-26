@@ -6,7 +6,6 @@ gem "mysql2", "~> 0.3"
 gem "rack", "~> 1.6"
 gem "rack-timeout", "~> 0.0.4"
 gem "compass", "~> 1.0"
-#locking version @realpath_rec problem in 3.4.2
 gem "sass", "~>3.4"
 gem "zen-grids", "~> 1.4"
 gem "sinatra", "~> 1.4"

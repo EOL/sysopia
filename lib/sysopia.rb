@@ -1,12 +1,12 @@
 require_relative "../environment"
-require_relative "systube/errors"
-require_relative "systube/version"
-require_relative "systube/stat"
-require_relative "systube/chart_table"
+require_relative "sysopia/errors"
+require_relative "sysopia/version"
+require_relative "sysopia/stat"
+require_relative "sysopia/chart_table"
 
 
 # All-encompassing module of the project
-module SysTube
+module Sysopia
   ONE_DAY = 86400
   HUNDRED_DAYS = 8640000
   class << self
@@ -17,7 +17,7 @@ module SysTube
     end
 
     def next_day?
-      Today.today != SysTube.today
+      Today.today != Sysopia.today
     end
 
     def today

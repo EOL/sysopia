@@ -5,9 +5,9 @@ require "active_record"
 require "fileutils"
 
 # All encompassing module for the project
-module SysTube
+module Sysopia
   def self.env
-    @env ||= ENV["SYSTUBE_ENV"] ? ENV["SYSTUBE_ENV"].to_sym : :development
+    @env ||= ENV["SYSOPIA_ENV"] ? ENV["SYSOPIA_ENV"].to_sym : :development
   end
 
   def self.db_conf
@@ -25,8 +25,8 @@ module SysTube
   end
 
   def self.read_env
-    if ENV["SYSTUBE"]
-      open(File.join(__dir__, ENV["SYSTUBE"])).each do |l|
+    if ENV["SYSOPIA"]
+      open(File.join(__dir__, ENV["SYSOPIA"])).each do |l|
         key, val = l.strip.split("=")
         ENV[key] = val if key && val
       end
@@ -39,7 +39,7 @@ module SysTube
       key, val = l.strip.split("=")
       val && key
     end.compact
-    e_real = ENV.keys.select { |k| k =~ /^SYSTUBE_/ }
+    e_real = ENV.keys.select { |k| k =~ /^SYSOPIA_/ }
     missing = e_required - e_real
     extra = e_real - e_required
     raise("Missing env variables: #{missing.join(', ')}") unless missing.empty?
@@ -64,5 +64,5 @@ Dir.glob(File.join(File.dirname(__FILE__), "models", "**", "*.rb")) do |app|
   require File.basename(app, ".*")
 end
 
-SysTube.read_env
-SysTube.db_connection
+Sysopia.read_env
+Sysopia.db_connection

@@ -1,4 +1,4 @@
-module SysTube
+module Sysopia
   class Stat
     DATA = {
       load_one: {

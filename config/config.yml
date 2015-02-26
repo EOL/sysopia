@@ -1,22 +1,22 @@
-session_secret: <%= ENV["SYSTUBE_SESSION_SECRET"] %>
-timezone_offset: <%= ENV["SYSTUBE_TIMEZONE_OFFSET"] %>
+session_secret: <%= ENV["SYSOPIA_SESSION_SECRET"] %>
+timezone_offset: <%= ENV["SYSOPIA_TIMEZONE_OFFSET"] %>
 database:
   common: &common
     adapter: mysql2
     encoding: utf8
     reconnect: true
-    host: <%= ENV["SYSTUBE_DB_HOST"] %>
-    username: <%= ENV["SYSTUBE_DB_USERNAME"] %>
-    password: <%= ENV["SYSTUBE_DB_PASSWORD"] %>
+    host: <%= ENV["SYSOPIA_DB_HOST"] %>
+    username: <%= ENV["SYSOPIA_DB_USERNAME"] %>
+    password: <%= ENV["SYSOPIA_DB_PASSWORD"] %>
 
   development:
     <<: *common
-    database: systube_dev
+    database: sysopia_dev
 
   test:
     <<: *common
-    database: systube_test
+    database: sysopia_test
 
   production:
     <<: *common
-    database: systube
+    database: sysopia

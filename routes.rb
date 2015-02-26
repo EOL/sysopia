@@ -4,7 +4,7 @@ end
 
 get "/" do
   data = Stat.last_day
-  ct = SysTube::ChartTable.new(data)
+  ct = Sysopia::ChartTable.new(data)
   @mem_data = ct.table("memory_taken")
   @load_data = ct.table("load_one")
   @ioread_data = ct.table("io_read")

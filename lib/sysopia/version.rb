@@ -1,5 +1,5 @@
 # Separating version methods
-module SysTube
+module Sysopia
   VERSION = "0.0.1"
 
   def self.version

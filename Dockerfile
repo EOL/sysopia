@@ -13,5 +13,5 @@ COPY Gemfile.lock /app/
 RUN bundle install --without development test
 COPY . /app
 
-#CMD ["SYSOPIA=./config/env.sh unicorn -c ./config/docker/unicorn.rb"]
+CMD ["unicorn", "-c", "/app/config/docker/unicorn.rb"]
 

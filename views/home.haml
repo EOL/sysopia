@@ -1,0 +1,29 @@
+
+#chart_container
+  #y_axis
+  #chart
+  #legend
+
+:javascript
+  var palette = new Rickshaw.Color.Palette();
+  var graph = new Rickshaw.Graph( {
+          element: document.querySelector("#chart"),
+          width: 580,
+          height: 250,
+          interpolation: "linear",
+          renderer: "line",
+          series: #{@stat_data}
+  } );
+  var axes = new Rickshaw.Graph.Axis.Time( { graph: graph } );
+  var y_axis = new Rickshaw.Graph.Axis.Y( {
+          graph: graph,
+          orientation: 'left',
+          tickFormat: Rickshaw.Fixtures.Number.formatKMBT,
+          element: document.getElementById('y_axis'),
+  } );
+
+  var legend = new Rickshaw.Graph.Legend( {
+          element: document.querySelector('#legend'),
+          graph: graph
+  } );
+  graph.render();

@@ -1,5 +1,8 @@
 Sysopia CHANGELOG
 ============================
+0.1.1
+-----
+- [dimus][1] - Bug fix which prevented showing one of hosts
 
 0.1.0
 -----

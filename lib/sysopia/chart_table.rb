@@ -33,6 +33,7 @@ module Sysopia
           data = [datum]
         end
       end
+      res << [current_comp_id, data]
       res.sort_by { |a, b| @comps.keys.index(a) * -1 }
     end
   end

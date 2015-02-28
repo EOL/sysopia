@@ -1,26 +1,26 @@
-%h3 Load avg 1 min
+%h3 Load per cpu, 1min average
 
 .chart_container
   .y_axis.load
   .chart.load
   .legend.load
 
-%h3 Percent of taken memory
+%h3 Used memory (%)
 
 .chart_container
   .y_axis.mem
   .chart.mem
   .legend.mem
 
-%h3 IO reads in MB/sec
+%h3 IO reads (MB/sec)
 
 .chart_container
   .y_axis.ioread
   .chart.ioread
   .legend.ioread
 
-%h3 IO writes in MB/sec
-    
+%h3 IO writes (MB/sec)
+
 .chart_container
   .y_axis.iowrite
   .chart.iowrite
@@ -30,93 +30,102 @@
   var palette = new Rickshaw.Color.Palette();
 
   // Load graph
-  var graph_load = new Rickshaw.Graph( {
-          element: document.querySelector(".chart.load"),
-          width: 1000,
-          height: 300,
-          interpolation: "linear",
-          renderer: "line",
-          series: #{@load_data}
+  var graph = new Rickshaw.Graph( {
+    element: document.querySelector(".chart.load"),
+      width: 1000,
+        height: 300,
+        interpolation: "linear",
+        renderer: "line",
+        series: #{@load_data}
   } );
-  var axes = new Rickshaw.Graph.Axis.Time( { graph: graph_load } );
+  var axes = new Rickshaw.Graph.Axis.Time( {
+    graph: graph,
+    orientation: "bottom"
+  } );
   var y_axis = new Rickshaw.Graph.Axis.Y( {
-          graph: graph_load,
-          orientation: 'left',
-          tickFormat: Rickshaw.Fixtures.Number.formatKMBT,
-          element: document.querySelector('.y_axis.load'),
+    graph: graph,
+    orientation: "left",
+    tickFormat: Rickshaw.Fixtures.Number.formatKMBT,
+    element: document.querySelector(".y_axis.load")
   } );
 
   var legend = new Rickshaw.Graph.Legend( {
-          element: document.querySelector('.legend.load'),
-          graph: graph_load
+    element: document.querySelector(".legend.load"),
+      graph: graph
   } );
-  graph_load.render();
-  
+  graph.render();
+
+
   // Memory percentage graph
-  var graph_mem = new Rickshaw.Graph( {
-          element: document.querySelector(".chart.mem"),
-          width: 1000,
-          height: 300,
-          interpolation: "linear",
-          renderer: "line",
-          series: #{@mem_data}
+  palette = new Rickshaw.Color.Palette();
+
+  graph = new Rickshaw.Graph( {
+    element: document.querySelector(".chart.mem"),
+      width: 1000,
+      height: 300,
+      interpolation: "linear",
+      renderer: "line",
+      series: #{@mem_data}
   } );
-  var axes = new Rickshaw.Graph.Axis.Time( { graph: graph_mem } );
-  var y_axis = new Rickshaw.Graph.Axis.Y( {
-          graph: graph_mem,
-          orientation: 'left',
-          tickFormat: Rickshaw.Fixtures.Number.formatKMBT,
-          element: document.querySelector('.y_axis.mem'),
+  axes = new Rickshaw.Graph.Axis.Time( { graph: graph } );
+  y_axis = new Rickshaw.Graph.Axis.Y( {
+    graph: graph,
+    orientation: "left",
+    tickFormat: Rickshaw.Fixtures.Number.formatKMBT,
+    element: document.querySelector(".y_axis.mem"),
   } );
 
-  var legend = new Rickshaw.Graph.Legend( {
-          element: document.querySelector('.legend.mem'),
-          graph: graph_mem
+  legend = new Rickshaw.Graph.Legend( {
+    element: document.querySelector(".legend.mem"),
+    graph: graph
   } );
-  graph_mem.render();
-  
+  graph.render();
+
   // IO read graph
-  var graph_ioread = new Rickshaw.Graph( {
-          element: document.querySelector(".chart.ioread"),
-          width: 1000,
-          height: 300,
-          interpolation: "linear",
-          renderer: "line",
-          series: #{@ioread_data}
+  palette = new Rickshaw.Color.Palette();
+
+  graph = new Rickshaw.Graph( {
+    element: document.querySelector(".chart.ioread"),
+    width: 1000,
+    height: 300,
+    interpolation: "linear",
+    renderer: "line",
+    series: #{@ioread_data}
   } );
-  var axes = new Rickshaw.Graph.Axis.Time( { graph: graph_ioread } );
-  var y_axis = new Rickshaw.Graph.Axis.Y( {
-          graph: graph_ioread,
-          orientation: 'left',
-          tickFormat: Rickshaw.Fixtures.Number.formatKMBT,
-          element: document.querySelector('.y_axis.ioread'),
+  axes = new Rickshaw.Graph.Axis.Time( { graph: graph } );
+  y_axis = new Rickshaw.Graph.Axis.Y( {
+    graph: graph,
+    orientation: "left",
+    tickFormat: Rickshaw.Fixtures.Number.formatKMBT,
+    element: document.querySelector(".y_axis.ioread"),
   } );
 
-  var legend = new Rickshaw.Graph.Legend( {
-          element: document.querySelector('.legend.ioread'),
-          graph: graph_ioread
+  legend = new Rickshaw.Graph.Legend( {
+    element: document.querySelector(".legend.ioread"),
+    graph: graph
   } );
-  graph_ioread.render();
-  
+  graph.render();
+
   // IO write graph
-  var graph_iowrite = new Rickshaw.Graph( {
-          element: document.querySelector(".chart.iowrite"),
-          width: 1000,
-          height: 300,
-          interpolation: "linear",
-          renderer: "line",
-          series: #{@iowrite_data}
+  palette = new Rickshaw.Color.Palette();
+  graph = new Rickshaw.Graph( {
+    element: document.querySelector(".chart.iowrite"),
+    width: 1000,
+    height: 300,
+    interpolation: "linear",
+    renderer: "line",
+    series: #{@iowrite_data}
   } );
-  var axes = new Rickshaw.Graph.Axis.Time( { graph: graph_iowrite } );
-  var y_axis = new Rickshaw.Graph.Axis.Y( {
-          graph: graph_iowrite,
-          orientation: 'left',
-          tickFormat: Rickshaw.Fixtures.Number.formatKMBT,
-          element: document.querySelector('.y_axis.iowrite'),
+  axes = new Rickshaw.Graph.Axis.Time( { graph: graph } );
+  y_axis = new Rickshaw.Graph.Axis.Y( {
+    graph: graph,
+    orientation: "left",
+    tickFormat: Rickshaw.Fixtures.Number.formatKMBT,
+    element: document.querySelector(".y_axis.iowrite"),
   } );
 
-  var legend = new Rickshaw.Graph.Legend( {
-          element: document.querySelector('.legend.iowrite'),
-          graph: graph_iowrite
+  legend = new Rickshaw.Graph.Legend( {
+    element: document.querySelector(".legend.iowrite"),
+    graph: graph
   } );
-  graph_iowrite.render();
+  graph.render();

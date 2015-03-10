@@ -48,12 +48,12 @@ task(:release) do
   begin
     g = Git.open(File.dirname(__FILE__))
     new_tag = Sysopia.version
-    g.add_tag("v.#{new_tag}")
+    g.add_tag("v#{new_tag}")
     g.add(all: true)
     g.commit("Releasing version #{new_tag}")
-    g.push
+    g.push(tags: true)
   rescue Git::GitExecuteError
-    puts "'v.#{new_tag}' already exists, update your version."
+    puts "'v#{new_tag}' already exists, update your version."
   end
 end
 

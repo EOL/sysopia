@@ -28,13 +28,17 @@ module Sysopia
         if current_comp_id == comp_id
           data << datum
         else
-          res << [current_comp_id, data]
+          res << [current_comp_id, sorted_data(data)]
           current_comp_id = comp_id
           data = [datum]
         end
       end
-      res << [current_comp_id, data]
+      res << [current_comp_id, sorted_data(data)]
       res.sort_by { |a, b| @comps.keys.index(a) * -1 }
+    end
+
+    def sorted_data(data)
+      data.sort_by { |datum| datum[:x] }
     end
   end
 end

@@ -24,6 +24,10 @@ to your own file and change values if necessary.
 Sysopia now should run in development mode and show graphs with fake data at
 http://localhost:9292
 
+For debugging you can run
+
+    SYSOPIA=config/env.sh bundle exec rake console
+
 
 [1]: https://raw.githubusercontent.com/EOL/sysopia/master/config/env.sh
 

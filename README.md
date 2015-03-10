@@ -10,7 +10,7 @@ Install mysql and mysql development package.
     apt-get update
     apt-get install mysql-server libmysqlclient-dev
 
-Prepare gems, databases, seed data. If mysql is accessible located at your
+Prepare gems, databases, seed data. If mysql is located at your
 localhost, connected to 127.0.0.1 and has no password for root you can use
 [config/env.sh][1] file to provide environmental variables. Copy env.sh
 to your own file and change values if necessary.

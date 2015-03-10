@@ -41,7 +41,7 @@ When code's version is ready to be upgraded
 
     SYSOPIA=config/env.sh bundle exec rake release
 
-* Go to production brunch and merge it with master. This step will also
+* Go to production branch and merge it with master. This step will also
   generate new Docker image at [Docker Hub][4]
 
 [1]: https://raw.githubusercontent.com/EOL/sysopia/master/config/env.sh

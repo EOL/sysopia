@@ -21,7 +21,7 @@ to your own file and change values if necessary.
     SYSOPIA=config/env.sh bundle exec rake seed
     SYSOPIA=config/env.sh bundle exec rackup
 
-Sysopia now should run in development mode and be accessible at
+Sysopia now should run in development mode and show graphs with fake data at
 http://localhost:9292
 
 

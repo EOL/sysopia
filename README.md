@@ -28,6 +28,23 @@ For debugging you can run
 
     SYSOPIA=config/env.sh bundle exec rake console
 
+Release of a New Version
+------------------------
+
+When code's version is ready to be upgraded
+
+* Change version number at [lib/sysopia/version.rb][2]
+
+* Add record to [CHANGELOG.md file][3]
+
+* Run rake release
+
+    SYSOPIA=config/env.sh bundle exec rake release
+
+* Go to production brunch and merge it with master. This step will also
+  generate new Docker image at [Docker Hub][4]
 
 [1]: https://raw.githubusercontent.com/EOL/sysopia/master/config/env.sh
-
+[2]: https://raw.githubusercontent.com/EOL/sysopia/master/lib/sysopia/version.rb
+[3]: https://raw.githubusercontent.com/EOL/sysopia/master/CHANGELOG.md
+[4]: https://registry.hub.docker.com/u/encoflife/sysopia/

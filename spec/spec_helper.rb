@@ -1,19 +1,16 @@
-require 'coveralls'
+require "coveralls"
 Coveralls.wear!
 
-# HACK: to suppress warnings                                                     
-$VERBOSE = nil   
+require "rack/test"
+require "capybara"
+require "capybara/rspec"
+require "capybara/dsl"
+require "capybara/webkit"
+require "byebug"
+require_relative "support/helpers"
 
-require 'rack/test'
-require 'capybara'
-require 'capybara/rspec'
-require 'capybara/dsl'
-require 'capybara/webkit'
-require 'byebug'
-require_relative 'support/helpers'
-
-ENV['SEABASE_ENV'] = 'test'
-require_relative '../application.rb'
+ENV["SYSOPIA_ENV"] = ENV["RACK_ENV"] = "test"
+require_relative "../application.rb"
 
 Capybara.javascript_driver = :webkit
 Capybara.app = Sinatra::Application

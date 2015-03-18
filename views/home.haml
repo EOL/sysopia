@@ -55,6 +55,15 @@
   } );
   graph.render();
 
+  var hoverDetail = new Rickshaw.Graph.HoverDetail({
+    graph: graph
+  });
+
+  var highlighter = new Rickshaw.Graph.Behavior.Series.Highlight( {
+    graph: graph,
+    legend: legend
+  });
+
 
   // Memory percentage graph
   palette = new Rickshaw.Color.Palette();
@@ -81,6 +90,15 @@
   } );
   graph.render();
 
+  var hoverDetail = new Rickshaw.Graph.HoverDetail({
+    graph: graph
+  });
+
+  var highlighter = new Rickshaw.Graph.Behavior.Series.Highlight( {
+    graph: graph,
+    legend: legend
+  });
+
   // IO read graph
   palette = new Rickshaw.Color.Palette();
 
@@ -106,6 +124,15 @@
   } );
   graph.render();
 
+  var hoverDetail = new Rickshaw.Graph.HoverDetail({
+    graph: graph
+  });
+
+  var highlighter = new Rickshaw.Graph.Behavior.Series.Highlight( {
+    graph: graph,
+    legend: legend
+  });
+
   // IO write graph
   palette = new Rickshaw.Color.Palette();
   graph = new Rickshaw.Graph( {
@@ -129,3 +156,12 @@
     graph: graph
   } );
   graph.render();
+
+  var hoverDetail = new Rickshaw.Graph.HoverDetail({
+    graph: graph
+  });
+
+  var highlighter = new Rickshaw.Graph.Behavior.Series.Highlight( {
+    graph: graph,
+    legend: legend
+  });

@@ -2,6 +2,7 @@
 *.rbc
 /myenv.sh
 /.config
+/config/env.sh
 /coverage/
 /InstalledFiles
 /pkg/

@@ -17,7 +17,7 @@ Copy the contains of config/env.sh.example to a new file called env.sh. Change t
     bundle install
     SYSOPIA=config/env.sh bundle exec rake db:create:all
     SYSOPIA=config/env.sh bundle exec rake db:migrate
-    SYSOPIA=config/env.sh bundle exec rake seed
+    SYSOPIA=config/env.sh bundle exec rake db:seed
     SYSOPIA=config/env.sh bundle exec rackup
 
 Sysopia now should run in development mode and show graphs with fake data at

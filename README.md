@@ -11,14 +11,13 @@ Install mysql and mysql development package.
     apt-get install mysql-server libmysqlclient-dev
 
 Prepare gems, databases, seed data. If mysql is located at your
-localhost, connected to 127.0.0.1 and has no password for root you can use
-[config/env.sh][1] file to provide environmental variables. Copy env.sh
-to your own file and change values if necessary.
+
+Copy the contains of config/env.sh.example to a new file called env.sh. Change the values if necessary. It's used to provide environmental variables.
 
     bundle install
     SYSOPIA=config/env.sh bundle exec rake db:create:all
     SYSOPIA=config/env.sh bundle exec rake db:migrate
-    SYSOPIA=config/env.sh bundle exec rake seed
+    SYSOPIA=config/env.sh bundle exec rake db:seed
     SYSOPIA=config/env.sh bundle exec rackup
 
 Sysopia now should run in development mode and show graphs with fake data at

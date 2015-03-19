@@ -1,6 +1,11 @@
 Sysopia CHANGELOG
 ============================
 
+0.1.5
+-----
+- [vpowerrc][2] - hover over legend highlights a computer data,
+                  hovering over graph shows closest data values, date, time
+
 0.1.4
 -----
 - [dimus][1] - Seeds for development, Releases on github, bug fixes
@@ -26,3 +31,4 @@ Sysopia CHANGELOG
 - [dimus][1] - Initial commit
 
 [1]: https://github.com/dimus
+[2]: https://github.com/vpowerrc

@@ -12,6 +12,7 @@ COPY Gemfile /app/
 COPY Gemfile.lock /app/
 RUN bundle install --without development test
 COPY . /app
+RUN cp /app/config/env.sh.example /app/config/env.sh
 
 CMD ["unicorn", "-c", "/app/config/docker/unicorn.rb"]
 

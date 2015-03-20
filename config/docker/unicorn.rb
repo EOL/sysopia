@@ -1,4 +1,5 @@
 app_dir = "/app"
+ENV["SYSOPIA_ENV"]=production
 
 working_directory app_dir
 

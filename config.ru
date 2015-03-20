@@ -1,4 +1,3 @@
-ENV['SYSOPIA_ENV'] = (ENV['RACK_ENV'] || 'development')
 require './application.rb'
 
 set :run, false

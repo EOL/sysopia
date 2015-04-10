@@ -1,4 +1,4 @@
-[![Gitter](https://badges.gitter.im/Join%20Chat.svg)](1)
+[![Gitter][1]][2]
 
 Sysopia
 =======
@@ -34,18 +34,19 @@ Release of a New Version
 
 When code's version is ready to be upgraded
 
-* Change version number at [lib/sysopia/version.rb][2]
+* Change version number at [lib/sysopia/version.rb][3]
 
-* Add record to [CHANGELOG.md file][3]
+* Add record to [CHANGELOG.md file][4]
 
 * Run rake release
 
     SYSOPIA=config/env.sh bundle exec rake release
 
 * Go to production branch and merge it with master. This step will also
-  generate new Docker image at [Docker Hub][4]
+  generate new Docker image at [Docker Hub][5]
 
-[1]: https://gitter.im/EOL/sysopia?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge
-[2]: https://raw.githubusercontent.com/EOL/sysopia/master/lib/sysopia/version.rb
-[3]: https://raw.githubusercontent.com/EOL/sysopia/master/CHANGELOG.md
-[4]: https://registry.hub.docker.com/u/encoflife/sysopia/
+[1]: https://badges.gitter.im/Join%20Chat.svg
+[2]: https://gitter.im/EOL/sysopia?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge
+[3]: https://raw.githubusercontent.com/EOL/sysopia/master/lib/sysopia/version.rb
+[4]: https://raw.githubusercontent.com/EOL/sysopia/master/CHANGELOG.md
+[5]: https://registry.hub.docker.com/u/encoflife/sysopia/

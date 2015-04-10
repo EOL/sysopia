@@ -1,3 +1,5 @@
+[![Gitter](https://badges.gitter.im/Join%20Chat.svg)](1)
+
 Sysopia
 =======
 A dashboard to visualize a small/medium system status
@@ -43,7 +45,7 @@ When code's version is ready to be upgraded
 * Go to production branch and merge it with master. This step will also
   generate new Docker image at [Docker Hub][4]
 
-[1]: https://raw.githubusercontent.com/EOL/sysopia/master/config/env.sh
+[1]: https://gitter.im/EOL/sysopia?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge
 [2]: https://raw.githubusercontent.com/EOL/sysopia/master/lib/sysopia/version.rb
 [3]: https://raw.githubusercontent.com/EOL/sysopia/master/CHANGELOG.md
 [4]: https://registry.hub.docker.com/u/encoflife/sysopia/

@@ -197,3 +197,6 @@ DEPENDENCIES
   unicorn (~> 4.8)
   webmock (~> 1.20)
   zen-grids (~> 1.4)
+
+BUNDLED WITH
+   1.10.3

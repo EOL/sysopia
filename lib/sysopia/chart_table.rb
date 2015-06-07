@@ -24,7 +24,7 @@ module Sysopia
       @data.each do |r|
         comp_id = r.comp_id
         current_comp_id = comp_id if current_comp_id.nil?
-        datum = { x: r[:timestamp] + Sysopia.conf.timezone_offset, y: r[stat] }
+        datum = { x: (r[:timestamp] + Sysopia.conf.timezone_offset)*1000, y: r[stat] }
         if current_comp_id == comp_id
           data << datum
         else

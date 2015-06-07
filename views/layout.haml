@@ -1,33 +1,29 @@
-!!! 5
 %html
   %head
     %title
       Sysopia
     %link{ rel: 'stylesheet', href: '/css/app.css', type: 'text/css' }
     %link{ rel: 'stylesheet', href: '/css/rickshaw.min.css', type: 'text/css' }
-
-    %link{ rel: 'stylesheet', href: 'http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css', type: 'text/css' } 
-    %script{ src: 'http://code.jquery.com/jquery-1.9.1.js' }
-    %script{ src: 'http://code.jquery.com/ui/1.10.3/jquery-ui.js' }
+    %link{ rel: 'stylesheet', href: '/css/jquery-ui.css', type: 'text/css' }
+    
     %script{ src: 'https://www.google.com/jsapi' }
+    %script{ src: '/js/jquery-1.9.1.js' }
+    %script{ src: '/js/jquery-ui.js' }    
     %script{ src: '/js/d3.min.js' }
     %script{ src: '/js/d3.layout.min.js' }
     %script{ src: '/js/rickshaw.min.js' }
+    %script{ src: '/js/highstock.js' }
   %body
-    .container
-      .header
+    #wrapper
+      #header
         %h1{ id: 'title' }
           %a{ href: '/' } Sysopia
         .menu
           %ul
             %li
-              %a{ href: '/' } Home
-    .container
-    .container
-      #content
-        = yield
-
-    .container
+              %a{ href: '/' } Home 
+      #container 
+        = yield    
       #footer
         %a{ href: 'https://github.com/EOL/sysopia/blob/master/LICENSE' } 
           MIT License

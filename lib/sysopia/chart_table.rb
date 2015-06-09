@@ -17,28 +17,36 @@ module Sysopia
       end.to_json.gsub(/"(x|y|name|data|color|palette.color\(\))"/, '\1')
     end
 
-    def raw_data(stat)
+    def raw_data(stat)      
       res = []
       current_comp_id = nil
       data = []
       @data.each do |r|
         comp_id = r.comp_id
         current_comp_id = comp_id if current_comp_id.nil?
-        datum = { x: (r[:timestamp] + Sysopia.conf.timezone_offset)*1000, y: r[stat] }
+        if stat=="load_one"
+          datum = [ (r[:timestamp] + Sysopia.conf.timezone_offset)*1000, r[stat] ]
+        else
+          datum = { x: (r[:timestamp] + Sysopia.conf.timezone_offset), y: r[stat] }
+        end
         if current_comp_id == comp_id
           data << datum
         else
-          res << [current_comp_id, sorted_data(data)]
+          res << [current_comp_id, sorted_data(data,stat)]
           current_comp_id = comp_id
           data = [datum]
         end
       end
-      res << [current_comp_id, sorted_data(data)]
+      res << [current_comp_id, sorted_data(data,stat)]
       res.sort_by { |a, b| @comps.keys.index(a) * -1 }
     end
 
-    def sorted_data(data)
-      data.sort_by { |datum| datum[:x] }
+    def sorted_data(data,stat)
+      if stat=="load_one"
+        data.sort_by { |datum| datum[0] }
+      else
+        data.sort_by { |datum| datum[:x] }
+      end
     end
   end
 end

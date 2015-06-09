@@ -247,9 +247,9 @@
                         type: 'hour',
                         text: '1 H'
                     }, {
-                        count: 12,
+                        count: 6,
                         type: 'hour',
-                        text: '12 H'
+                        text: '6 H'
                     }, {
                         count: 1,
                         type: 'day',
@@ -267,7 +267,7 @@
                         text: 'All'
                     }],
                     inputEnabled: false,
-                    selected: 6
+                    selected: 2
                 },
 
                 yAxis: {
@@ -308,12 +308,12 @@
             });
         };
 
-    $.each(systems, function (i, system) {
+    $.each(systems, function (i) {
+      console.log(systems[i])
       seriesOptions[i] = {
-          name: system.name,
-          data: system.data,
-          color: system.color,
-          marker : {symbol : 'square' }
+          name: systems[i].name,
+          data: systems[i].data,
+          color: systems[i].color
       };
 
    

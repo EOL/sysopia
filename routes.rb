@@ -3,7 +3,7 @@ get "/css/:filename.css" do
 end
 
 get "/" do
-  data = Stat.last_day
+  data = Stat.last_month
   ct = Sysopia::ChartTable.new(data)
   @mem_data = ct.table("memory_taken")
   @load_data = ct.table("load_one")

@@ -15,15 +15,11 @@ class Stat < ActiveRecord::Base
     def last_period(period, stat)
       mod_val = (period.to_f/DAY).round
       mod_val = 1 if mod_val < 1
-      period = Sysopia.now - period
-      data = {}
-      res = nil
+      period = Sysopia.now - period     
       if stat
-        return Stat.where("timestamp > #{period}").order(:comp_id).
-          select("id, comp_id, timestamp, #{stat}")
+        return Stat.where("timestamp > #{period}").select("id, comp_id, timestamp, #{stat}")
       else
-        return Stat.where("timestamp > #{period}").where("mod(id, 1) = 0").
-          order(:comp_id)
+        return Stat.where("timestamp > #{period}").where("mod(id, 1) = 0")
       end
     end
   end

@@ -1,29 +1,3 @@
-%h3 Load per cpu, 1min average
-
-.chart_container  
-  .chart_load
-  
-%h3 Used memory (%)
-
-.chart_container
-  .y_axis.mem
-  .chart.mem
-  .legend.mem
-
-%h3 IO reads (MB/sec)
-
-.chart_container
-  .y_axis.ioread
-  .chart.ioread
-  .legend.ioread
-
-%h3 IO writes (MB/sec)
-
-.chart_container
-  .y_axis.iowrite
-  .chart.iowrite
-  .legend.iowrite
-
 :javascript
   // var palette = new Rickshaw.Color.Palette();
 
@@ -64,268 +38,233 @@
 
 
   // Memory percentage graph
-  palette = new Rickshaw.Color.Palette();
+  //palette = new Rickshaw.Color.Palette();
 
-  graph = new Rickshaw.Graph( {
-    element: document.querySelector(".chart.mem"),
-      width: 1000,
-      height: 300,
-      interpolation: "linear",
-      renderer: "line",
-      series: #{@mem_data}
-  } );
-  axes = new Rickshaw.Graph.Axis.Time( { graph: graph } );
-  y_axis = new Rickshaw.Graph.Axis.Y( {
-    graph: graph,
-    orientation: "left",
-    tickFormat: Rickshaw.Fixtures.Number.formatKMBT,
-    element: document.querySelector(".y_axis.mem"),
-  } );
+  var graph_colors = ["#cb513a", "#73c03a", "#65b9ac", "#4682b4", "#96557e", "#785f43", "#858772", "#b5b6a9", "#c7b439", "#4fbd66", "#55a9b7", "#724ea5", "#874c4f", "#817959", "#9d9f8d", "#b9b777", "#7ec244", "#52ba98", "#4f65b0", "#964d89", "#846552", "#929171", "#aaac82", "#c1945a", "#c7b439"];
 
-  legend = new Rickshaw.Graph.Legend( {
-    element: document.querySelector(".legend.mem"),
-    graph: graph
-  } );
-  graph.render();
+  // graph = new Rickshaw.Graph( {
+  //   element: document.querySelector(".chart.mem"),
+  //     width: 1000,
+  //     height: 300,
+  //     interpolation: "linear",
+  //     renderer: "line",
+  //     series: #{@mem_data}
+  // } );
+  // axes = new Rickshaw.Graph.Axis.Time( { graph: graph } );
+  // y_axis = new Rickshaw.Graph.Axis.Y( {
+  //   graph: graph,
+  //   orientation: "left",
+  //   tickFormat: Rickshaw.Fixtures.Number.formatKMBT,
+  //   element: document.querySelector(".y_axis.mem"),
+  // } );
 
-  var hoverDetail = new Rickshaw.Graph.HoverDetail({
-    graph: graph
-  });
+  // legend = new Rickshaw.Graph.Legend( {
+  //   element: document.querySelector(".legend.mem"),
+  //   graph: graph
+  // } );
+  // graph.render();
 
-  var highlighter = new Rickshaw.Graph.Behavior.Series.Highlight( {
-    graph: graph,
-    legend: legend
-  });
+  // var hoverDetail = new Rickshaw.Graph.HoverDetail({
+  //   graph: graph
+  // });
 
-  // IO read graph
-  palette = new Rickshaw.Color.Palette();
+  // var highlighter = new Rickshaw.Graph.Behavior.Series.Highlight( {
+  //   graph: graph,
+  //   legend: legend
+  // });
 
-  graph = new Rickshaw.Graph( {
-    element: document.querySelector(".chart.ioread"),
-    width: 1000,
-    height: 300,
-    interpolation: "linear",
-    renderer: "line",
-    series: #{@ioread_data}
-  } );
-  axes = new Rickshaw.Graph.Axis.Time( { graph: graph } );
-  y_axis = new Rickshaw.Graph.Axis.Y( {
-    graph: graph,
-    orientation: "left",
-    tickFormat: Rickshaw.Fixtures.Number.formatKMBT,
-    element: document.querySelector(".y_axis.ioread"),
-  } );
+  // // IO read graph
+  // palette = new Rickshaw.Color.Palette();
 
-  legend = new Rickshaw.Graph.Legend( {
-    element: document.querySelector(".legend.ioread"),
-    graph: graph
-  } );
-  graph.render();
+  // graph = new Rickshaw.Graph( {
+  //   element: document.querySelector(".chart.ioread"),
+  //   width: 1000,
+  //   height: 300,
+  //   interpolation: "linear",
+  //   renderer: "line",
+  //   series: #{@ioread_data}
+  // } );
+  // axes = new Rickshaw.Graph.Axis.Time( { graph: graph } );
+  // y_axis = new Rickshaw.Graph.Axis.Y( {
+  //   graph: graph,
+  //   orientation: "left",
+  //   tickFormat: Rickshaw.Fixtures.Number.formatKMBT,
+  //   element: document.querySelector(".y_axis.ioread"),
+  // } );
 
-  var hoverDetail = new Rickshaw.Graph.HoverDetail({
-    graph: graph
-  });
+  // legend = new Rickshaw.Graph.Legend( {
+  //   element: document.querySelector(".legend.ioread"),
+  //   graph: graph
+  // } );
+  // graph.render();
 
-  var highlighter = new Rickshaw.Graph.Behavior.Series.Highlight( {
-    graph: graph,
-    legend: legend
-  });
+  // var hoverDetail = new Rickshaw.Graph.HoverDetail({
+  //   graph: graph
+  // });
 
-  // IO write graph
-  palette = new Rickshaw.Color.Palette();
-  graph = new Rickshaw.Graph( {
-    element: document.querySelector(".chart.iowrite"),
-    width: 1000,
-    height: 300,
-    interpolation: "linear",
-    renderer: "line",
-    series: #{@iowrite_data}
-  } );
-  axes = new Rickshaw.Graph.Axis.Time( { graph: graph } );
-  y_axis = new Rickshaw.Graph.Axis.Y( {
-    graph: graph,
-    orientation: "left",
-    tickFormat: Rickshaw.Fixtures.Number.formatKMBT,
-    element: document.querySelector(".y_axis.iowrite"),
-  } );
+  // var highlighter = new Rickshaw.Graph.Behavior.Series.Highlight( {
+  //   graph: graph,
+  //   legend: legend
+  // });
 
-  legend = new Rickshaw.Graph.Legend( {
-    element: document.querySelector(".legend.iowrite"),
-    graph: graph
-  } );
-  graph.render();
+  // // IO write graph
+  // palette = new Rickshaw.Color.Palette();
+  // graph = new Rickshaw.Graph( {
+  //   element: document.querySelector(".chart.iowrite"),
+  //   width: 1000,
+  //   height: 300,
+  //   interpolation: "linear",
+  //   renderer: "line",
+  //   series: #{@iowrite_data}
+  // } );
+  // axes = new Rickshaw.Graph.Axis.Time( { graph: graph } );
+  // y_axis = new Rickshaw.Graph.Axis.Y( {
+  //   graph: graph,
+  //   orientation: "left",
+  //   tickFormat: Rickshaw.Fixtures.Number.formatKMBT,
+  //   element: document.querySelector(".y_axis.iowrite"),
+  // } );
 
-  var hoverDetail = new Rickshaw.Graph.HoverDetail({
-    graph: graph
-  });
+  // legend = new Rickshaw.Graph.Legend( {
+  //   element: document.querySelector(".legend.iowrite"),
+  //   graph: graph
+  // } );
+  // graph.render();
 
-  var highlighter = new Rickshaw.Graph.Behavior.Series.Highlight( {
-    graph: graph,
-    legend: legend
-  });
+  // var hoverDetail = new Rickshaw.Graph.HoverDetail({
+  //   graph: graph
+  // });
 
-
-  /**
-     * Highcharts plugin for setting a lower opacity for other series than the one that is hovered
-     * in the legend
-     */
-  (function (Highcharts) {
-      var each = Highcharts.each;
-      
-      Highcharts.wrap(Highcharts.Legend.prototype, 'renderItem', function (proceed, item) {
-          
-          proceed.call(this, item);
-          
-          
-          var isPoint = !!item.series,
-              collection = isPoint ? item.series.points : this.chart.series,
-              groups = isPoint ? ['graphic'] : ['group', 'markerGroup'],
-              element = item.legendGroup.element;
-          
-          element.onmouseover = function () {
-             each(collection, function (seriesItem) {
-                  if (seriesItem !== item) {
-                      each(groups, function (group) {
-                          seriesItem[group].animate({
-                              opacity: 0.25
-                          }, {
-                              duration: 150
-                          });
-                      });
-                  }
-              });
-          }
-          element.onmouseout = function () {
-             each(collection, function (seriesItem) {
-                  if (seriesItem !== item) {
-                      each(groups, function (group) {
-                          seriesItem[group].animate({
-                              opacity: 1
-                          }, {
-                              duration: 50
-                          });
-                      });
-                  }
-              });
-          }           
-          
-      });
-  }(Highcharts));
-
+  // var highlighter = new Rickshaw.Graph.Behavior.Series.Highlight( {
+  //   graph: graph,
+  //   legend: legend
+  // });
+  var matrics_data = #{@matrics_data}  
+  //var matrics_data_array = []
+  // $.each(data, function(i, item) {
+  //   matrics_data_array.push[data[i]]
+  // });​
+  var charts = []
   $(function () {
-    var seriesOptions = [],
-        seriesCounter = 0,        
-        systems = #{@load_data}
+    $.each(matrics_data, function(i, matric) {     
+      var seriesOptions = [],
+          seriesCounter = 0,    
+          systems = matric['comps']
 
-        createChart = function () {
+      var $div = $("<div>", {id: matric.name, class: "chart_container"});
+      $("#container").append($div);
 
-            $('.chart_load').highcharts('StockChart', {
-                chart: {
-                  events: {
-                    load: function(event) {
-                      // modify the legend symbol from a rect to a line
-                      $('.highcharts-legend-item path').attr('stroke-width', '15');
+      //var chart = new Highcharts.Chart(options);
+      createChart = function () {
+        charts.push(new Highcharts.StockChart({
+            title: {
+              text: matric.description
+            },
+            chart: {
+              renderTo: matric.name,
+              pinchType: "xy",
+              zoomType: "xy",
+              resetZoomButton: {
+                position: {
+                  align: 'right', 
+                  verticalAlign: 'bottom'                
+                }
+              },
+              events: {                    
+                redraw: function () {
+                  // modify the legend symbol from a line to a rect
+                  console.log(this)
+                  $(".highcharts-legend-item path").attr('stroke-width', 15);
+                }
+              }
+            },                
+            legend: {
+              enabled: true,
+              align: 'right',                  
+              layout: 'vertical',
+              verticalAlign: 'middle',
+              itemMarginTop: 5,
+              itemMarginBottom: 5,
+              symbolWidth: 20                  
+            },
+            rangeSelector: {
+                buttons: [{
+                    count: 15,
+                    type: 'minute',
+                    text: '10 M'
+                }, {
+                    count: 1,
+                    type: 'hour',
+                    text: '1 H'
+                }, {
+                    count: 6,
+                    type: 'hour',
+                    text: '6 H'
+                }, {
+                    count: 1,
+                    type: 'day',
+                    text: '1 Day'
+                }, {
+                    count: 1,
+                    type: 'month',
+                    text: '1 Mon'
+                }, {
+                    count: 1,
+                    type: 'year',
+                    text: '1 Y'
+                },{
+                    type: 'all',
+                    text: 'All'
+                }],
+                inputEnabled: true,
+                selected: 2
+            },
+            yAxis: {
+                labels: {
+                    formatter: function () {                       
+                      var matric = matrics_data[this.chart.series[0].options.dataLabels]              
+                      return (this.y > 0 ? ' + ' : '') + this.value*matric.multiplier + matric.unit;
                     }
-                  }
-                },    
-                legend: {
-                  enabled: true,
-                  align: 'right',
-                  verticalAlign: 'top',
-                  layout: 'vertical',
-                  itemMarginTop: 10,
-                  itemMarginBottom: 10,
-                  symbolWidth: 20
                 },
-                rangeSelector: {
-                    buttons: [{
-                        count: 15,
-                        type: 'minute',
-                        text: '10 M'
-                    }, {
-                        count: 1,
-                        type: 'hour',
-                        text: '1 H'
-                    }, {
-                        count: 6,
-                        type: 'hour',
-                        text: '6 H'
-                    }, {
-                        count: 1,
-                        type: 'day',
-                        text: '1 Day'
-                    }, {
-                        count: 1,
-                        type: 'month',
-                        text: '1 Mon'
-                    }, {
-                        count: 1,
-                        type: 'year',
-                        text: '1 Y'
-                    },{
-                        type: 'all',
-                        text: 'All'
-                    }],
-                    inputEnabled: false,
-                    selected: 2
-                },
-
-                yAxis: {
-                    labels: {
-                        formatter: function () {
-                            return (this.value > 0 ? ' + ' : '') + this.value*100 + '%';
-                        }
-                    },
-                    plotLines: [{
-                        value: 0,
-                        width: 2,
-                        color: 'silver'
-                    }],
-                    min: 0 
-                },
-
-          
-
-                // tooltip: {
-                //     pointFormat: '<span style="color:{series.color}">{series.name}</span>: <b>{point.y}%</b><br/>',
-                //     valueDecimals: 2
-                // },
-
-                 tooltip: {
-                   enabled: true,
-                   formatter:function(){
-                      var tag = '<span>' +new Date(this.points[0].x).toUTCString()+'<br/></span>';
-                      console.log(this)
-                      for (var i in this.points) {
-                        point = this.points[i];
-                        tag += '<span style="color:'+point.series.color+'">'+point.series.name+'</span>: <b>'+Highcharts.numberFormat(point.y*100, 2)+'%</b><br/>';                     
-                      }                      
-                     return tag
-                   }
-                 },
-
-                series: seriesOptions
-            });
-        };
-
-    $.each(systems, function (i) {
-      console.log(systems[i])
-      seriesOptions[i] = {
-          name: systems[i].name,
-          data: systems[i].data,
-          color: systems[i].color
+                plotLines: [{
+                    value: 0,
+                    width: 2,
+                    color: 'silver'
+                }],
+                min: 0 
+            },    
+            tooltip: {
+              enabled: true,
+              formatter:function(){
+                var tag = '<span>' +new Date(this.points[0].x).toUTCString()+'<br/></span>';                      
+                for (var i in this.points) {
+                  var point = this.points[i];                        
+                  var matric = matrics_data[point.series.options.dataLabels]      
+                  tag += '<span style="color:'+point.series.color+'">'+point.series.name+'</span>: <b>'+Highcharts.numberFormat(point.y*matric.multiplier, 2)+matric.unit+'</b><br/>';                     
+                }                      
+                return tag
+              }
+            },
+            series: seriesOptions
+        }));
       };
 
-   
-      seriesCounter += 1;
-
-      if (seriesCounter === systems.length) {
-          createChart();
-      }
-   
-    });
+      $.each(systems, function (i) {           
+        seriesOptions[i] = {
+          name: systems[i].name,
+          data: systems[i].data,
+          color: graph_colors[i],
+          dataLabels: matric.name,
+          cursor : 'pointer',
+          turboThreshold: 0
+        };   
+        seriesCounter += 1;
+        if (seriesCounter === systems.length) {
+            createChart();
+        }     
+      });
+    })
   });
-
     /**
    * Dark theme for Highcharts JS
    * @author Torstein Honsi
@@ -539,3 +478,50 @@
 
   // Apply the theme
   Highcharts.setOptions(Highcharts.theme);
+
+  /**
+     * Highcharts plugin for setting a lower opacity for other series than the one that is hovered
+     * in the legend
+     */
+  (function (Highcharts) {
+      var each = Highcharts.each;
+      
+      Highcharts.wrap(Highcharts.Legend.prototype, 'renderItem', function (proceed, item) {
+          
+          proceed.call(this, item);
+          
+          
+          var isPoint = !!item.series,
+              collection = isPoint ? item.series.points : this.chart.series,
+              groups = isPoint ? ['graphic'] : ['group', 'markerGroup'],
+              element = item.legendGroup.element;
+          
+          element.onmouseover = function () {
+             each(collection, function (seriesItem) {
+                  if (seriesItem !== item) {
+                      each(groups, function (group) {
+                          seriesItem[group].animate({
+                              opacity: 0.25
+                          }, {
+                              duration: 150
+                          });
+                      });
+                  }
+              });
+          }
+          element.onmouseout = function () {
+             each(collection, function (seriesItem) {
+                  if (seriesItem !== item) {
+                      each(groups, function (group) {
+                          seriesItem[group].animate({
+                              opacity: 1
+                          }, {
+                              duration: 50
+                          });
+                      });
+                  }
+              });
+          }           
+          
+      });
+  }(Highcharts));

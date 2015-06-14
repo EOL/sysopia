@@ -172,8 +172,7 @@
               },
               events: {                    
                 redraw: function () {
-                  // modify the legend symbol from a line to a rect
-                  console.log(this)
+                  // modify the legend symbol from a line to a rect                  
                   $(".highcharts-legend-item path").attr('stroke-width', 15);
                 }
               }
@@ -189,7 +188,7 @@
             },
             rangeSelector: {
                 buttons: [{
-                    count: 15,
+                    count: 10,
                     type: 'minute',
                     text: '10 M'
                 }, {
@@ -217,7 +216,7 @@
                     text: 'All'
                 }],
                 inputEnabled: true,
-                selected: 2
+                selected: 6
             },
             yAxis: {
                 labels: {

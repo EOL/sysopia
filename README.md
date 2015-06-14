@@ -17,10 +17,13 @@ Prepare gems, databases, seed data. If mysql is located at your
 Copy the contains of config/env.sh.example to a new file called env.sh. Change the values if necessary. It's used to provide environmental variables.
 
     bundle install
-    SYSOPIA=config/env.sh bundle exec rake db:create:all
-    SYSOPIA=config/env.sh bundle exec rake db:migrate
-    SYSOPIA=config/env.sh bundle exec rake db:seed
-    SYSOPIA=config/env.sh bundle exec rackup
+    env SYSOPIA=config/env.sh bundle exec rake db:create:all
+    env SYSOPIA=config/env.sh bundle exec rake db:migrate
+    env SYSOPIA=config/env.sh bundle exec rake db:seed
+    env SYSOPIA=config/env.sh bundle exec rackup
+
+    For Development(to automatically restart the server after making a change)
+    env SYSOPIA=config/env.sh rerun rackup
 
 Sysopia now should run in development mode and show graphs with fake data at
 http://localhost:9292

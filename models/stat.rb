@@ -55,8 +55,7 @@ class Stat < ActiveRecord::Base
 
       if stat
         return Stat.where("timestamp > #{start} AND timestamp < #{end_}").select("id, comp_id, timestamp, #{stat}")
-      else
-        puts start
+      else        
         return Stat.where("timestamp > #{start} AND timestamp < #{end_}")
       end
     end

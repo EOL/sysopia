@@ -13,14 +13,14 @@ class Stat < ActiveRecord::Base
     end
 
     def start_and_length(start, length, stat = nil)
-      start = Chronic.parse(start)
+      start = epoch?(start) ? Time.at(start.to_i) : Chronic.parse(start)
       end_ = start + Unit.new(length)  
       last_period(start, end_, stat)
     end
 
     def start_and_end(start, end_, stat = nil)      
-      start = Chronic.parse(start)      
-      end_ = Chronic.parse(end_ || Time.now.to_s)            
+      start = epoch?(start) ? Time.at(start.to_i) : Chronic.parse(start)      
+      end_ = epoch?(end_) ? Time.at(end_.to_i) : Chronic.parse(end_ || Time.now.to_s)            
       last_period(start, end_, stat)
     end
 
@@ -49,6 +49,11 @@ class Stat < ActiveRecord::Base
     end
 
     private
+    def epoch?(time)
+      if time =~ /^[0-9]+$/ && time.length > 7 then true else false end
+
+    end
+
     def last_period(start, end_ = 0, stat = nil)
       start = start.to_i
       end_ = end_.to_i    

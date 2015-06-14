@@ -20,6 +20,7 @@ gem "chronic"
 group :development do
   gem "byebug", "~> 3.5"
   gem "sinatra-reloader", "~> 1.0"
+  gem "rerun"
 end
 
 group :production do

@@ -3,7 +3,25 @@ get "/css/:filename.css" do
 end
 
 get "/" do
-  stats = Stat.last_month
+  time_window = params[:time_window]
+  offset      = params[:offset]
+  length      = params[:length]
+  start       = params[:start]
+  end_        = params[:end]
+  ago         = params[:ago]
+
+  if time_window.present? && offset.present?
+  	stats = Stat.time_window_and_offset(time_window, offset)
+  elsif start.present? && length.present?
+  	stats = Stat.start_and_length(start, length)
+  elsif start.present?  	
+  	stats = Stat.start_and_end(start, end_)
+  elsif ago.present?    
+    stats = Stat.ago(ago)
+  else 	 	
+  	stats = Stat.last_month
+  end
+
   ct = Sysopia::ChartTable.new(stats)  
   @matrics_data = ct.matrics.to_json
   

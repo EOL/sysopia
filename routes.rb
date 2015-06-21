@@ -19,7 +19,7 @@ get "/" do
   elsif ago.present?    
     stats = Stat.ago(ago)
   else 	 	
-  	stats = Stat.last_month
+  	stats = Stat.last_day
   end
 
   ct = Sysopia::ChartTable.new(stats)  

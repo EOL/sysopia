@@ -64,6 +64,19 @@
  
   var charts = []
   $(function () {
+    var legend_layout;
+    var legend_v_align;
+    var legend_h_align;
+      if ($(window).width() < 640){
+        legend_layout = "horizontal"; 
+        legend_v_align = "bottom";
+        legend_h_align = "middle";
+      }else{
+        legend_layout = "vertical";
+        legend_v_align = "middle";
+        legend_h_align = "right";
+      } 
+  
     $.each(matrics_data, function(i, matric) {     
       var seriesOptions = [],
           seriesCounter = 0,    
@@ -97,12 +110,12 @@
             },                
             legend: {
               enabled: true,
-              align: 'right',                  
-              layout: 'vertical',
-              verticalAlign: 'middle',
+              align: legend_h_align,                  
+              layout: legend_layout,
+              verticalAlign: legend_v_align,
               itemMarginTop: 2,
               itemMarginBottom: 2,
-              symbolWidth: 18                  
+              symbolWidth: 18                              
             },
             rangeSelector: {
                 buttons: [{                

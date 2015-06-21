@@ -1,149 +1,67 @@
+#cssmenu.range_selector
+  %ul
+    %li
+      %a{:href => "/?start=#{(Time.now - Unit.new('1day')).to_i}&page=last_24_hours", :class => "last_24_hours" }
+        %span Last 24 Hours
+    %li
+      %a{:href => "/?start=#{Time.now.strftime('%d-%m-%Y')}&page=today", :class => "today" }
+        %span Today
+    %li
+      %a{:href => "/?start=#{(Time.now - Unit.new('1day')).strftime('%d-%m-%Y')}&end=#{(Time.now).strftime('%d-%m-%Y')}&page=yesterday", :class => "yesterday" }
+        %span Yesterday
+    %li
+      %a{:href => "/?start=#{(Time.now - Unit.new('7days')).strftime('%d-%m-%Y')}&page=last_7_days", :class => "last_7_days" }
+        %span Last 7 Days
+    %li
+      %a{:href => "/?start=#{(Time.now - Unit.new('30days')).strftime('%d-%m-%Y')}&page=last_30_days", :class => "last_30_days" }
+        %span Last 30 Days
+    %li
+      %a{:href => "/?start=#{Date.today.beginning_of_month.strftime('%d-%m-%Y')}&page=this_month", :class => "this_month" }
+        %span This Month
+    %li
+      %a{:href => "/?start=#{Date.today.beginning_of_month.last_month.strftime('%d-%m-%Y')}&end=#{Date.today.end_of_month.last_month.strftime('%d-%m-%Y')}&page=last_month", :class => "last_month" }
+        %span Last Month   
+    %li.last
+      %a{:href => "/?start=#{Date.today.beginning_of_year.strftime('%d-%m-%Y')}&page=this_year", :class => "this_year" }
+        %span This Year
+    %li
+      %a{:href => "/?start=#{Date.today.beginning_of_year.last_year.strftime('%d-%m-%Y')}&end=#{Date.today.end_of_year.last_year.strftime('%d-%m-%Y')}&page=this_year", :class => "this_year" }
+        %span Last Year    
+
 :javascript
-  // var palette = new Rickshaw.Color.Palette();
 
-  // Load graph
-  // var graph = new Rickshaw.Graph( {
-  //   element: document.querySelector(".chart.load"),
-  //     width: 1000,
-  //       height: 300,
-  //       interpolation: "linear",
-  //       renderer: "line",
-  //       series: #{@load_data}
-  // } );
-  // var axes = new Rickshaw.Graph.Axis.Time( {
-  //   graph: graph,
-  //   orientation: "bottom"
-  // } );
-  // var y_axis = new Rickshaw.Graph.Axis.Y( {
-  //   graph: graph,
-  //   orientation: "left",
-  //   tickFormat: Rickshaw.Fixtures.Number.formatKMBT,
-  //   element: document.querySelector(".y_axis.load")
-  // } );
+  $( document ).ready(function() {    
+    if(document.location.search.length) {  
+      var page = url('?page') 
+      var list_item = $('#cssmenu .'+page).parent()     
+      list_item.addClass("active")      
+      $('#cssmenu').prepend('<div id="menu-button">'+ list_item.find("a").html() +'</div>');
+    }
+    else{
+      var first_list_item = $('#cssmenu').find("ul li").first()
+      first_list_item.addClass("active")
+      $('#cssmenu').prepend('<div id="menu-button">'+ first_list_item.find("a").html() +'</div>');
+    }
+    
+    $('#cssmenu #menu-button').on('click', function(){
+      var menu = $(this).next('ul');
+      if (menu.hasClass('open')) {
+        menu.removeClass('open');
+      }
+      else {
+        menu.addClass('open');
+      }
+    });
 
-  // var legend = new Rickshaw.Graph.Legend( {
-  //   element: document.querySelector(".legend.load"),
-  //     graph: graph
-  // } );
-  // graph.render();
-
-  // var hoverDetail = new Rickshaw.Graph.HoverDetail({
-  //   graph: graph
-  // });
-
-  // var highlighter = new Rickshaw.Graph.Behavior.Series.Highlight( {
-  //   graph: graph,
-  //   legend: legend
-  // });
-
-
-  // Memory percentage graph
-  //palette = new Rickshaw.Color.Palette();
+    $('#cssmenu ul').on('click', function(){     
+      $(this).removeClass('open');        
+    });
+  });  
 
   var graph_colors = ["#cb513a", "#73c03a", "#65b9ac", "#4682b4", "#96557e", "#785f43", "#858772", "#b5b6a9", "#c7b439", "#4fbd66", "#55a9b7", "#724ea5", "#874c4f", "#817959", "#9d9f8d", "#b9b777", "#7ec244", "#52ba98", "#4f65b0", "#964d89", "#846552", "#929171", "#aaac82", "#c1945a", "#c7b439"];
 
-  // graph = new Rickshaw.Graph( {
-  //   element: document.querySelector(".chart.mem"),
-  //     width: 1000,
-  //     height: 300,
-  //     interpolation: "linear",
-  //     renderer: "line",
-  //     series: #{@mem_data}
-  // } );
-  // axes = new Rickshaw.Graph.Axis.Time( { graph: graph } );
-  // y_axis = new Rickshaw.Graph.Axis.Y( {
-  //   graph: graph,
-  //   orientation: "left",
-  //   tickFormat: Rickshaw.Fixtures.Number.formatKMBT,
-  //   element: document.querySelector(".y_axis.mem"),
-  // } );
-
-  // legend = new Rickshaw.Graph.Legend( {
-  //   element: document.querySelector(".legend.mem"),
-  //   graph: graph
-  // } );
-  // graph.render();
-
-  // var hoverDetail = new Rickshaw.Graph.HoverDetail({
-  //   graph: graph
-  // });
-
-  // var highlighter = new Rickshaw.Graph.Behavior.Series.Highlight( {
-  //   graph: graph,
-  //   legend: legend
-  // });
-
-  // // IO read graph
-  // palette = new Rickshaw.Color.Palette();
-
-  // graph = new Rickshaw.Graph( {
-  //   element: document.querySelector(".chart.ioread"),
-  //   width: 1000,
-  //   height: 300,
-  //   interpolation: "linear",
-  //   renderer: "line",
-  //   series: #{@ioread_data}
-  // } );
-  // axes = new Rickshaw.Graph.Axis.Time( { graph: graph } );
-  // y_axis = new Rickshaw.Graph.Axis.Y( {
-  //   graph: graph,
-  //   orientation: "left",
-  //   tickFormat: Rickshaw.Fixtures.Number.formatKMBT,
-  //   element: document.querySelector(".y_axis.ioread"),
-  // } );
-
-  // legend = new Rickshaw.Graph.Legend( {
-  //   element: document.querySelector(".legend.ioread"),
-  //   graph: graph
-  // } );
-  // graph.render();
-
-  // var hoverDetail = new Rickshaw.Graph.HoverDetail({
-  //   graph: graph
-  // });
-
-  // var highlighter = new Rickshaw.Graph.Behavior.Series.Highlight( {
-  //   graph: graph,
-  //   legend: legend
-  // });
-
-  // // IO write graph
-  // palette = new Rickshaw.Color.Palette();
-  // graph = new Rickshaw.Graph( {
-  //   element: document.querySelector(".chart.iowrite"),
-  //   width: 1000,
-  //   height: 300,
-  //   interpolation: "linear",
-  //   renderer: "line",
-  //   series: #{@iowrite_data}
-  // } );
-  // axes = new Rickshaw.Graph.Axis.Time( { graph: graph } );
-  // y_axis = new Rickshaw.Graph.Axis.Y( {
-  //   graph: graph,
-  //   orientation: "left",
-  //   tickFormat: Rickshaw.Fixtures.Number.formatKMBT,
-  //   element: document.querySelector(".y_axis.iowrite"),
-  // } );
-
-  // legend = new Rickshaw.Graph.Legend( {
-  //   element: document.querySelector(".legend.iowrite"),
-  //   graph: graph
-  // } );
-  // graph.render();
-
-  // var hoverDetail = new Rickshaw.Graph.HoverDetail({
-  //   graph: graph
-  // });
-
-  // var highlighter = new Rickshaw.Graph.Behavior.Series.Highlight( {
-  //   graph: graph,
-  //   legend: legend
-  // });
   var matrics_data = #{@matrics_data}  
-  //var matrics_data_array = []
-  // $.each(data, function(i, item) {
-  //   matrics_data_array.push[data[i]]
-  // });​
+ 
   var charts = []
   $(function () {
     $.each(matrics_data, function(i, matric) {     
@@ -173,7 +91,7 @@
               events: {                    
                 redraw: function () {
                   // modify the legend symbol from a line to a rect                  
-                  $(".highcharts-legend-item path").attr('stroke-width', 15);
+                  $(".highcharts-legend-item path").attr('stroke-width', 12);
                 }
               }
             },                
@@ -182,41 +100,17 @@
               align: 'right',                  
               layout: 'vertical',
               verticalAlign: 'middle',
-              itemMarginTop: 5,
-              itemMarginBottom: 5,
-              symbolWidth: 20                  
+              itemMarginTop: 2,
+              itemMarginBottom: 2,
+              symbolWidth: 18                  
             },
             rangeSelector: {
-                buttons: [{
-                    count: 10,
-                    type: 'minute',
-                    text: '10 M'
-                }, {
-                    count: 1,
-                    type: 'hour',
-                    text: '1 H'
-                }, {
-                    count: 6,
-                    type: 'hour',
-                    text: '6 H'
-                }, {
-                    count: 1,
-                    type: 'day',
-                    text: '1 Day'
-                }, {
-                    count: 1,
-                    type: 'month',
-                    text: '1 Mon'
-                }, {
-                    count: 1,
-                    type: 'year',
-                    text: '1 Y'
-                },{
+                buttons: [{                
                     type: 'all',
                     text: 'All'
-                }],
+                }],                
                 inputEnabled: true,
-                selected: 6
+                selected: 1
             },
             yAxis: {
                 labels: {

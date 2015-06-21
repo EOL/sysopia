@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150223204834) do
+ActiveRecord::Schema.define(version: 20150621050635) do
 
   create_table "comps", force: :cascade do |t|
     t.string  "sensu_name",   limit: 255
@@ -42,6 +42,7 @@ ActiveRecord::Schema.define(version: 20150223204834) do
     t.float   "memory_taken",        limit: 24
     t.integer "processes_waiting",   limit: 4
     t.integer "processes_iowaiting", limit: 4
+    t.string  "granularity",         limit: 0
   end
 
   add_index "stats", ["comp_id"], name: "index_stats_on_comp_id", using: :btree

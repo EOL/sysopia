@@ -20,8 +20,8 @@ module Sysopia
         comp_data[comp.id] = { :name => comp.sensu_name, :data => [] }
       end      
       @stats.each do |stat|             
-        point = { :x => (stat[:timestamp] + Sysopia.conf.timezone_offset)*1000, :y => stat[matric_name] }
-        comp_data[stat.comp_id][:data] << point           
+        point = { :x => (stat["timestamp"] + Sysopia.conf.timezone_offset)*1000, :y => stat[matric_name] }
+        comp_data[stat["comp_id"]][:data] << point           
       end      
       comp_data.map { |key, value| value }
     end

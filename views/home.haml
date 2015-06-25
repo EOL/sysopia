@@ -2,13 +2,7 @@
   %ul
     %li
       %a{:href => "/?start=#{(Time.now - Unit.new('1day')).to_i}&page=last_24_hours", :class => "last_24_hours" }
-        %span Last 24 Hours
-    %li
-      %a{:href => "/?start=#{Time.now.strftime('%d-%m-%Y')}&page=today", :class => "today" }
-        %span Today
-    %li
-      %a{:href => "/?start=#{(Time.now - Unit.new('1day')).strftime('%d-%m-%Y')}&end=#{(Time.now).strftime('%d-%m-%Y')}&page=yesterday", :class => "yesterday" }
-        %span Yesterday
+        %span Last 24 Hours   
     %li
       %a{:href => "/?start=#{(Time.now - Unit.new('7days')).strftime('%d-%m-%Y')}&page=last_7_days", :class => "last_7_days" }
         %span Last 7 Days
@@ -16,17 +10,24 @@
       %a{:href => "/?start=#{(Time.now - Unit.new('30days')).strftime('%d-%m-%Y')}&page=last_30_days", :class => "last_30_days" }
         %span Last 30 Days
     %li
-      %a{:href => "/?start=#{Date.today.beginning_of_month.strftime('%d-%m-%Y')}&page=this_month", :class => "this_month" }
-        %span This Month
-    %li
       %a{:href => "/?start=#{Date.today.beginning_of_month.last_month.strftime('%d-%m-%Y')}&end=#{Date.today.end_of_month.last_month.strftime('%d-%m-%Y')}&page=last_month", :class => "last_month" }
-        %span Last Month   
+        %span Last Month      
+    %li
+      %a{:href => "/?start=#{Date.today.beginning_of_year.last_year.strftime('%d-%m-%Y')}&end=#{Date.today.end_of_year.last_year.strftime('%d-%m-%Y')}&page=this_year", :class => "last_year" }
+        %span Last Year      
+    %li
+      %a{:href => "/?start=#{Time.now.strftime('%d-%m-%Y')}&page=today", :class => "today" }
+        %span Today
+    %li
+      %a{:href => "/?start=#{(Time.now - Unit.new('1day')).strftime('%d-%m-%Y')}&end=#{(Time.now).strftime('%d-%m-%Y')}&page=yesterday", :class => "yesterday" }
+        %span Yesterday
+    %li
+      %a{:href => "/?start=#{Date.today.beginning_of_month.strftime('%d-%m-%Y')}&page=this_month", :class => "this_month" }
+        %span This Month     
     %li.last
       %a{:href => "/?start=#{Date.today.beginning_of_year.strftime('%d-%m-%Y')}&page=this_year", :class => "this_year" }
         %span This Year
-    %li
-      %a{:href => "/?start=#{Date.today.beginning_of_year.last_year.strftime('%d-%m-%Y')}&end=#{Date.today.end_of_year.last_year.strftime('%d-%m-%Y')}&page=this_year", :class => "this_year" }
-        %span Last Year    
+        
 
 :javascript
 

@@ -13,14 +13,14 @@ class Stat < ActiveRecord::Base
     end
 
     def start_and_length(start, length, stat = nil)
-      start = epoch?(start) ? Time.at(start.to_i) : Chronic.parse(start)
+      start = epoch?(start) ? Time.at(start.to_i) : Chronic.parse(start, :endian_precedence => :little)
       end_ = start + Unit.new(length)  
       last_period(start, end_, stat)
     end
 
     def start_and_end(start, end_, stat = nil)      
-      start = epoch?(start) ? Time.at(start.to_i) : Chronic.parse(start)      
-      end_ = epoch?(end_) ? Time.at(end_.to_i) : Chronic.parse(end_ || Time.now.to_s)            
+      start = epoch?(start) ? Time.at(start.to_i) : Chronic.parse(start, :endian_precedence => :little)      
+      end_ = epoch?(end_) ? Time.at(end_.to_i) : Chronic.parse((end_ || Time.now.to_s), :endian_precedence => :little)            
       last_period(start, end_, stat)
     end
 
@@ -53,7 +53,8 @@ class Stat < ActiveRecord::Base
       if time =~ /^[0-9]+$/ && time.length > 7 then true else false end
     end
 
-    def get_granularity(time_range)      
+    def get_granularity(time_range)    
+      puts time_range
       case  
       when time_range <= DAY
         "10"
@@ -61,24 +62,27 @@ class Stat < ActiveRecord::Base
         "9"
       when time_range <= 4*DAY  
         "8"
-      when time_range <= 7*DAY  
+      when time_range <= 8*DAY  
         "7"
-      when time_range <= 14*DAY  
+      when time_range <= 16*DAY  
         "6"
-      when time_range <= 31*DAY  
-        "5"
       when time_range <= 32*DAY  
+        "5"
+      when time_range <= 64*DAY  
         "4"
-      when time_range <= 93*DAY  
+      when time_range <= 128*DAY  
         "3"
-      when time_range <= 186*DAY  
+      when time_range <= 256*DAY  
         "2"
-      when time_range <= 366*DAY  && time_range > 366*DAY
+      when time_range <= 512*DAY  && time_range > 512*DAY
         "1"
       end     
     end
 
     def last_period(start, end_, stat = nil)
+      puts start.to_i
+      puts end_.to_i  
+
       start = start.to_i
       end_ = end_.to_i    
       granularity_level = get_granularity(end_ - start)

@@ -6,6 +6,8 @@ require "mysql2"
 require "inifile"
 
 class Sysopia < Sensu::Handler
+  GRANULARITY = [10,9,8,7,6,5,4,3,2,1]
+
   FIELDS = {
     procs_waiting: "processes_waiting",
     procs_uninterruptible: "processes_iowaiting",
@@ -40,6 +42,16 @@ class Sysopia < Sensu::Handler
     res.first["id"]
   end
 
+  def granularity(db, timestamp)
+    idx = 0
+    res = db.query("select id, timestamp from stats limit 1")
+    if res.first
+      mins = ((timestamp.to_i - res.first["timestamp"])/60.0).floor
+      idx = (mins + 1).to_s(2).reverse.index("1")
+    end
+    "'" + GRANULARITY[0..idx].join(",") + "'"
+  end
+
   def enter_stats(db, output, id)
     columns = []
     values = []
@@ -59,6 +71,8 @@ class Sysopia < Sensu::Handler
     values << timestamp
     columns << "comp_id"
     values << id
+    columns << "granularity"
+    values << granularity(db, timestamp)
     columns = columns.join(",")
     values = values.join(",")
     db.query("insert into stats (#{columns}) values (#{values})")
@@ -73,7 +87,7 @@ class Sysopia < Sensu::Handler
     db_user = section["user"]
     db_pass = section["password"]
     db_database = section["database"]
-    
+
     # event values
     client_id = @event["client"]["name"]
     check_name = @event["check"]["name"]
@@ -86,12 +100,6 @@ class Sysopia < Sensu::Handler
                               password: db_pass, database: db_database)
       id = comp_id(db, output[0])
       enter_stats(db, output, id)
-      # db.query("INSERT INTO "\
-      #           "sensumetrics.sensu_historic_metrics("\
-      #           "client_id, check_name, issue_time, "\
-      #           "output, status) "\
-      #           "VALUES ("#{client_id}", "#{check_name}", "\
-      #           "#{check_issued}, "#{check_output}", #{check_status})")
     rescue Mysql2::Error => e
       puts e.errno
       puts e.error

@@ -395,8 +395,7 @@ dt:first-child:before { /* disable line break before the first <dt> */
   background: -ms-linear-gradient(top, #51bbd2 0%, #2d97af 100%);
   background: linear-gradient(to bottom, #51bbd2 0%, #2d97af 100%);
 }
-#cssmenu > ul {
-  background: url('images/bg.png');
+#cssmenu > ul {  
   box-shadow: inset 0 -3px 0 rgba(0, 0, 0, 0.05);
 }
 #cssmenu.align-right > ul > li {
@@ -613,8 +612,7 @@ dt:first-child:before { /* disable line break before the first <dt> */
     color: #d3eced;
     padding: 8px 15px 10px 8px;
     text-transform: uppercase;
-    letter-spacing: 1px;
-    background: url('images/bg.png');
+    letter-spacing: 1px;  
     cursor: pointer;
   }
   #cssmenu ul ul,
@@ -691,3 +689,4 @@ dt:first-child:before { /* disable line break before the first <dt> */
 .highcharts-input-group{
   cursor: default;
 }
+

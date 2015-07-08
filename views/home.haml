@@ -1,13 +1,13 @@
 #cssmenu.range_selector
   %ul
     %li
-      %a{:href => "/?start=#{(Time.now - Unit.new('1day')).to_i}&page=last_24_hours", :class => "last_24_hours" }
+      %a{:href => "/?start=24_hours_ago", :class => "24_hours_ago" }
         %span Last 24 Hours   
     %li
-      %a{:href => "/?start=#{(Time.now - Unit.new('7days')).strftime('%d-%m-%Y')}&page=last_7_days", :class => "last_7_days" }
+      %a{:href => "/?start=7_days_ago", :class => "7_days_ago" }
         %span Last 7 Days
     %li
-      %a{:href => "/?start=#{(Time.now - Unit.new('30days')).strftime('%d-%m-%Y')}&page=last_30_days", :class => "last_30_days" }
+      %a{:href => "/?start=30_days_ago", :class => "30_days_ago" }
         %span Last 30 Days
     %li
       %a{:href => "/?start=#{Date.today.beginning_of_month.last_month.strftime('%d-%m-%Y')}&end=#{Date.today.end_of_month.last_month.strftime('%d-%m-%Y')}&page=last_month", :class => "last_month" }
@@ -33,7 +33,7 @@
 
   $( document ).ready(function() {    
     if(document.location.search.length) {  
-      var page = url('?page') 
+      var page = url('?page') || url('?start')
       var list_item = $('#cssmenu .'+page).parent()     
       list_item.addClass("active")      
       $('#cssmenu').prepend('<div id="menu-button">'+ list_item.find("a").html() +'</div>');
@@ -69,9 +69,12 @@
     var legend_v_align;
     var legend_h_align;
       if ($(window).width() < 640){
-        legend_layout = "horizontal"; 
-        legend_v_align = "bottom";
-        legend_h_align = "middle";
+        // legend_layout = "horizontal"; 
+        // legend_v_align = "bottom";
+        // legend_h_align = "middle";
+        legend_layout = "vertical";
+        legend_v_align = "middle";
+        legend_h_align = "right";
       }else{
         legend_layout = "vertical";
         legend_v_align = "middle";
@@ -92,6 +95,9 @@
             title: {
               text: matric.description
             },
+            credits: {
+              enabled: false
+            },
             chart: {
               renderTo: matric.name,
               pinchType: "xy",
@@ -106,9 +112,25 @@
                 redraw: function () {
                   // modify the legend symbol from a line to a rect                  
                   $(".highcharts-legend-item path").attr('stroke-width', 12);
+                  $(".highcharts-series-group").find(".highcharts-series:last").css("visibility","hidden");
+
+                  // var chart = this;
+
+                  // $.each(chart.legend.allItems, function(i, item){                    
+                  //   var $check = $(item.checkbox),
+                  //     left = parseFloat($check.css('left')),
+                  //     label = item.legendItem,
+                  //     static = 30;                    
+                  //   $check.css({
+                  //     left: (left - 150) + 'px'  
+                  //   });
+                  // });
                 }
               }
-            },                
+            },      
+            navigator: {
+              height: 20
+            },          
             legend: {
               enabled: true,
               align: legend_h_align,                  
@@ -116,7 +138,20 @@
               verticalAlign: legend_v_align,
               itemMarginTop: 2,
               itemMarginBottom: 2,
-              symbolWidth: 18                              
+              symbolWidth: 18, 
+              itemWidth:150,             
+              labelFormatter: function () {                        
+                if (this.point && typeof this.point.series != "undefined"){                 
+                  var matric = matrics_data[this.point.series.options.dataLabels] 
+                  
+                  if (this.state == ".")                    
+                    return '<span style="color:'+this.color+'">'+this.name+'</span><span class="value" > : ' + parseFloat(this.point.y*matric.multiplier).toFixed(2) + ' ' + matric.unit + '</span>' 
+                  else
+                    return '<span style="color:'+this.color+'">'+this.name+'</span><span class="value"> : </span>'                  
+                }
+                else
+                  return '<span style="color:'+this.color+'">'+this.name+'</span><span class="value"> : </span>'                
+              }                              
             },
             rangeSelector: {
                 buttons: [{                
@@ -133,26 +168,107 @@
                       return (this.y > 0 ? ' + ' : '') + this.value*matric.multiplier + matric.unit;
                     }
                 },
-                plotLines: [{
-                    value: 0,
-                    width: 2,
-                    color: 'silver'
-                }],
                 min: 0 
             },    
             tooltip: {
               enabled: true,
-              formatter:function(){
-                var tag = '<span>' +new Date(this.points[0].x).toUTCString()+'<br/></span>';                      
-                for (var i in this.points) {
-                  var point = this.points[i];                        
-                  var matric = matrics_data[point.series.options.dataLabels]      
-                  tag += '<span style="color:'+point.series.color+'">'+point.series.name+'</span>: <b>'+Highcharts.numberFormat(point.y*matric.multiplier, 2)+matric.unit+'</b><br/>';                     
-                }                      
-                return tag
+              formatter:function(){                     
+                chart = this.points[0].series.chart
+                var legendOptions = chart.legend.options,
+                    hoverPoints = chart.hoverPoints;                
+                if (!hoverPoints && chart.hoverPoint) {
+                    hoverPoints = [chart.hoverPoint];
+                }
+
+                var hoverComps = [];
+                if (hoverPoints) {  
+                  $(hoverPoints).each(function(i, point){                    
+                    point.series.point = point;
+                    hoverComps.push(point.series.name)
+                  });      
+                                
+                  $(chart.legend.allItems).each(function(i, item){
+                    item.state = "."                 
+                    if (hoverComps.indexOf(item.name) == -1){     
+                      item.state = "nil"
+                    }                           
+                    item.legendItem.attr({
+                      text: legendOptions.labelFormat ? 
+                        H.format(legendOptions.labelFormat, item) :
+                        legendOptions.labelFormatter.call(item)
+                    });                    
+                  });
+                  chart.legend.render();                     
+                  return false
+                }              
               }
             },
-            series: seriesOptions
+            plotOptions: {              
+              series: {
+                showCheckbox: true,
+                cursor : 'pointer',
+                turboThreshold: 0,
+                showCheckbox:true,
+                selected: true,
+                stickyTracking: false,
+                events: {
+                  checkboxClick: function (event) {
+                    if (event.checked) {
+                      this.show();                     
+                      var element = $(this.legendItem.element).find("tspan:first")
+                      element.attr('style', element.attr('stylee'));
+                      element.removeAttr('stylee');
+                      $(this.legend.allItems[i].checkbox).prop('checked', true);
+                    } else {                      
+                      this.hide();                      
+                      var element = $(this.legendItem.element).find("tspan:first")
+                      element.attr('stylee', element.attr('style'));
+                      element.removeAttr('style');
+                      $(this.legend.allItems[i].checkbox).prop('checked', false);                   
+                    }
+                  },
+                  legendItemClick: function() {
+                    return false;
+                  }
+                }              
+              }
+            },
+            series: seriesOptions,
+              exporting: {
+                buttons: {
+                  legend_select_all: {
+                    id: 'legend_select_all',
+                    text: 'Deselect all',
+                    y: 320,
+                    onclick: function () {                      
+                      if (this.series[0].visible == true){
+                        $(this.series).each(function(){                        
+                          this.setVisible(false, true);
+                        });         
+
+                        for (var i = 0; i < this.legend.allItems.length; i++) {                
+                          var element = $(this.legend.allItems[i].legendItem.element).find("tspan:first");
+                          element.attr('stylee', element.attr('style'));
+                          element.removeAttr('style');
+                          $(this.legend.allItems[i].checkbox).prop('checked', false);           
+                        }
+                      }
+                      else{
+                        $(this.series).each(function(){                        
+                          this.setVisible(true, true);
+                        });         
+
+                        for (var i = 0; i < this.legend.allItems.length; i++) {                
+                          var element = $(this.legend.allItems[i].legendItem.element).find("tspan:first");
+                          element.attr('stylee', element.attr('style'));
+                          element.removeAttr('style');
+                          $(this.legend.allItems[i].checkbox).prop('checked', true);           
+                        }
+                      } 
+                    }                    
+                  }
+                }
+              }
         }));
       };
 
@@ -161,9 +277,7 @@
           name: systems[i].name,
           data: systems[i].data,
           color: graph_colors[i],
-          dataLabels: matric.name,
-          cursor : 'pointer',
-          turboThreshold: 0
+          dataLabels: matric.name      
         };   
         seriesCounter += 1;
         if (seriesCounter === systems.length) {
@@ -171,9 +285,12 @@
         }     
       });
     })
-  });
+  }); 
+  
+
+
     /**
-   * Dark theme for Highcharts JS
+   * Dark theme for Highcharts JSthis.point
    * @author Torstein Honsi
    */
 
@@ -384,7 +501,9 @@
   };
 
   // Apply the theme
-  Highcharts.setOptions(Highcharts.theme);
+  //Highcharts.setOptions(Highcharts.theme);
+
+  
 
   /**
      * Highcharts plugin for setting a lower opacity for other series than the one that is hovered

@@ -10,6 +10,13 @@ get "/" do
   end_        = params[:end]
   ago         = params[:ago]
 
+  time_window.to_s.gsub!(/_/, ' ')
+  offset.to_s.gsub!(/_/, ' ')
+  length.to_s.gsub!(/_/, ' ')
+  start.to_s.gsub!(/_/, ' ')
+  end_.to_s.gsub!(/_/, ' ')
+  ago.to_s.gsub!(/_/, ' ')  
+
   if time_window.present? && offset.present?
   	stats = Stat.time_window_and_offset(time_window, offset)
   elsif start.present? && length.present?

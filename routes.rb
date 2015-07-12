@@ -26,7 +26,7 @@ get "/" do
   elsif ago.present?    
     stats = Stat.ago(ago)
   else 	 	
-  	stats = Stat.last_day
+  	redirect '/?start=24_hours_ago'
   end
 
   ct = Sysopia::ChartTable.new(stats)  

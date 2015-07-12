@@ -1,7 +1,7 @@
 module Sysopia
   class ChartTable
     def initialize(stats)
-      @comps = Comp.all
+      @comps = Comp.all.order('sensu_name ASC')
       @stats = stats
     end
 

@@ -88,8 +88,8 @@
 
       var $div = $("<div>", {id: matric.name, class: "chart_container"});
       $("#container").append($div);
-
-      //var chart = new Highcharts.Chart(options);
+      
+      $(".highcharts-legend-item tspan:last-child").css("visibility","hidden");
       createChart = function () {
         charts.push(new Highcharts.StockChart({
             title: {
@@ -108,23 +108,33 @@
                   verticalAlign: 'bottom'                
                 }
               },
-              events: {                    
-                load: function () {
+              events: {          
+                redraw: function () {                  
                   // modify the legend symbol from a line to a rect                  
                   $(".highcharts-legend-item path").attr('stroke-width', 12);
                   $(".highcharts-series-group").find(".highcharts-series:last").css("visibility","hidden");
 
-                  // var chart = this;
+                  var chart = this;                    
+                  $.each(chart.legend.allItems, function(i, item){
+                      var $check = $(item.checkbox),
+                          left = parseFloat($check.css('left')),
+                          label = item.legendItem,
+                          static = 40;                     
+                                           
+                      $check.css({
+                          left: (left - $(label.element).width() - static) + 'px'  
+                      });
+                                        
+                  });
 
-                  // $.each(chart.legend.allItems, function(i, item){                    
-                  //   var $check = $(item.checkbox),
-                  //     left = parseFloat($check.css('left')),
-                  //     label = item.legendItem,
-                  //     static = 30;                    
-                  //   $check.css({
-                  //     left: (left - 150) + 'px'  
-                  //   });
-                  // });
+                },          
+                load: function () {
+                  // modify the legend symbol from a line to a rect                  
+                  $(".highcharts-legend-item path").attr('stroke-width', 12);
+
+                  $(".highcharts-legend-item tspan:last-child").html("")
+                  $(".highcharts-legend-item tspan:last-child").css("visibility","visible");                  
+
                 }
               }
             },      
@@ -137,20 +147,20 @@
               layout: legend_layout,
               verticalAlign: legend_v_align,
               itemMarginTop: 2,
+              itemMarginLeft: 10,
               itemMarginBottom: 2,
-              symbolWidth: 18, 
-              itemWidth:150,             
-              labelFormatter: function () {                        
-                if (this.point && typeof this.point.series != "undefined"){                 
+              symbolWidth: 18,     
+
+              labelFormatter: function () {
+                if (this.point && typeof this.point.series != "undefined"){                               
                   var matric = matrics_data[this.point.series.options.dataLabels] 
-                  
-                  if (this.state == ".")                    
-                    return '<span style="color:'+this.color+'">'+this.name+'</span><span class="value" > : ' + parseFloat(this.point.y*matric.multiplier).toFixed(2) + ' ' + matric.unit + '</span>' 
+                      if (this.state == ".")                    
+                    return '<span style="color:'+this.color+'">'+this.name+': </span><span class="value" >' + parseFloat(this.point.y*matric.multiplier).toFixed(2) + ' ' + matric.unit + '</span>' 
                   else
-                    return '<span style="color:'+this.color+'">'+this.name+'</span><span class="value"> : </span>'                  
+                    return '<span style="color:'+this.color+'">'+this.name+': </span><span class="value"></span>'           
                 }
                 else
-                  return '<span style="color:'+this.color+'">'+this.name+'</span><span class="value"> : </span>'                
+                  return '<span style="color:'+this.color+'">'+this.name+': </span><span class="value">%%%%%%%%%</span>'                
               }                              
             },
             rangeSelector: {
@@ -186,19 +196,37 @@
                     point.series.point = point;
                     hoverComps.push(point.series.name)
                   });      
-                                
+                      
                   $(chart.legend.allItems).each(function(i, item){
                     item.state = "."                 
                     if (hoverComps.indexOf(item.name) == -1){     
                       item.state = "nil"
-                    }                           
+                      console.log(item.name)
+                      $(item.legendItem.element).find("tspan:last-child").css("visibility","hidden")
+                    }       
+                    else
+
                     item.legendItem.attr({
                       text: legendOptions.labelFormat ? 
                         H.format(legendOptions.labelFormat, item) :
                         legendOptions.labelFormatter.call(item)
-                    });                    
+                    });  
                   });
-                  chart.legend.render();                     
+
+                  //chart.legend.render(); 
+                  //chart.reflow();
+                  // $.each(chart.legend.allItems, function(i, item){
+
+                  //   var $check = $(item.checkbox),
+                  //       left = parseFloat($check.css('left')),
+                  //       label = item.legendItem,
+                  //       static = 40;                     
+                                         
+                  //   $check.css({
+                  //       left: (left - $(label.element).width() - static) + 'px'  
+                  //   });                                      
+                  // });
+
                   return false
                 }              
               }

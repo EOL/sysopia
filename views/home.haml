@@ -114,6 +114,24 @@
                   $(".highcharts-legend-item path").attr('stroke-width', 12);
                   $(".highcharts-series-group").find(".highcharts-series:last").css("visibility","hidden");
 
+                  // var chart = this;                    
+                  // $.each(chart.legend.allItems, function(i, item){
+                  //     var $check = $(item.checkbox),
+                  //         left = parseFloat($check.css('left')),
+                  //         label = item.legendItem,
+                  //         static = 40;                     
+                                           
+                  //     $check.css({
+                  //         left: (left - $(label.element).width() - static) + 'px'  
+                  //     });
+                                        
+                  // });
+
+                },          
+                load: function () {
+                  // modify the legend symbol from a line to a rect                  
+                  $(".highcharts-legend-item path").attr('stroke-width', 12);
+                  
                   var chart = this;                    
                   $.each(chart.legend.allItems, function(i, item){
                       var $check = $(item.checkbox),
@@ -126,11 +144,6 @@
                       });
                                         
                   });
-
-                },          
-                load: function () {
-                  // modify the legend symbol from a line to a rect                  
-                  $(".highcharts-legend-item path").attr('stroke-width', 12);
 
                   $(".highcharts-legend-item tspan:last-child").html("")
                   $(".highcharts-legend-item tspan:last-child").css("visibility","visible");                  
@@ -200,8 +213,7 @@
                   $(chart.legend.allItems).each(function(i, item){
                     item.state = "."                 
                     if (hoverComps.indexOf(item.name) == -1){     
-                      item.state = "nil"
-                      console.log(item.name)
+                      item.state = "nil"                    
                       $(item.legendItem.element).find("tspan:last-child").css("visibility","hidden")
                     }       
                     else

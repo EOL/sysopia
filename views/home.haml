@@ -1,593 +1,667 @@
 #cssmenu.range_selector
-  %ul
-    %li
-      %a{:href => "/?start=24_hours_ago", :class => "24_hours_ago" }
-        %span Last 24 Hours   
-    %li
-      %a{:href => "/?start=7_days_ago", :class => "7_days_ago" }
-        %span Last 7 Days
-    %li
-      %a{:href => "/?start=30_days_ago", :class => "30_days_ago" }
-        %span Last 30 Days
-    %li
-      %a{:href => "/?start=#{Date.today.beginning_of_month.last_month.strftime('%d-%m-%Y')}&end=#{Date.today.end_of_month.last_month.strftime('%d-%m-%Y')}&page=last_month", :class => "last_month" }
-        %span Last Month      
-    %li
-      %a{:href => "/?start=#{Date.today.beginning_of_year.last_year.strftime('%d-%m-%Y')}&end=#{Date.today.end_of_year.last_year.strftime('%d-%m-%Y')}&page=this_year", :class => "last_year" }
-        %span Last Year      
-    %li
-      %a{:href => "/?start=#{Time.now.strftime('%d-%m-%Y')}&page=today", :class => "today" }
-        %span Today
-    %li
-      %a{:href => "/?start=#{(Time.now - Unit.new('1day')).strftime('%d-%m-%Y')}&end=#{(Time.now).strftime('%d-%m-%Y')}&page=yesterday", :class => "yesterday" }
-        %span Yesterday
-    %li
-      %a{:href => "/?start=#{Date.today.beginning_of_month.strftime('%d-%m-%Y')}&page=this_month", :class => "this_month" }
-        %span This Month     
-    %li.last
-      %a{:href => "/?start=#{Date.today.beginning_of_year.strftime('%d-%m-%Y')}&page=this_year", :class => "this_year" }
-        %span This Year
-        
+	%ul
+		%li
+			%a{:href => "/?start=24_hours_ago", :class => "24_hours_ago" }
+				%span Last 24 Hours   
+		%li
+			%a{:href => "/?start=7_days_ago", :class => "7_days_ago" }
+				%span Last 7 Days
+		%li
+			%a{:href => "/?start=30_days_ago", :class => "30_days_ago" }
+				%span Last 30 Days
+		%li
+			%a{:href => "/?start=#{Date.today.beginning_of_month.last_month.strftime('%d-%m-%Y')}&end=#{Date.today.end_of_month.last_month.strftime('%d-%m-%Y')}&page=last_month", :class => "last_month" }
+				%span Last Month      
+		%li
+			%a{:href => "/?start=#{Date.today.beginning_of_year.last_year.strftime('%d-%m-%Y')}&end=#{Date.today.end_of_year.last_year.strftime('%d-%m-%Y')}&page=this_year", :class => "last_year" }
+				%span Last Year      
+		%li
+			%a{:href => "/?start=#{Time.now.strftime('%d-%m-%Y')}&page=today", :class => "today" }
+				%span Today
+		%li
+			%a{:href => "/?start=#{(Time.now - Unit.new('1day')).strftime('%d-%m-%Y')}&end=#{(Time.now).strftime('%d-%m-%Y')}&page=yesterday", :class => "yesterday" }
+				%span Yesterday
+		%li
+			%a{:href => "/?start=#{Date.today.beginning_of_month.strftime('%d-%m-%Y')}&page=this_month", :class => "this_month" }
+				%span This Month     
+		%li.last
+			%a{:href => "/?start=#{Date.today.beginning_of_year.strftime('%d-%m-%Y')}&page=this_year", :class => "this_year" }
+				%span This Year
+				
 
 :javascript
 
-  $( document ).ready(function() {    
-    if(document.location.search.length) {  
-      var page = url('?page') || url('?start')
-      var list_item = $('#cssmenu .'+page).parent()     
-      list_item.addClass("active")      
-      $('#cssmenu').prepend('<div id="menu-button">'+ list_item.find("a").html() +'</div>');
-    }
-    else{
-      var first_list_item = $('#cssmenu').find("ul li").first()
-      first_list_item.addClass("active")
-      $('#cssmenu').prepend('<div id="menu-button">'+ first_list_item.find("a").html() +'</div>');
-    }
-    
-    $('#cssmenu #menu-button').on('click', function(){
-      var menu = $(this).next('ul');
-      if (menu.hasClass('open')) {
-        menu.removeClass('open');
-      }
-      else {
-        menu.addClass('open');
-      }
-    });
+	$( document ).ready(function() {    
+		if(document.location.search.length) {  
+			var page = url('?page') || url('?start')
+			var list_item = $('#cssmenu .'+page).parent()     
+			list_item.addClass("active")      
+			$('#cssmenu').prepend('<div id="menu-button">'+ list_item.find("a").html() +'</div>');
+		}
+		else{
+			var first_list_item = $('#cssmenu').find("ul li").first()
+			first_list_item.addClass("active")
+			$('#cssmenu').prepend('<div id="menu-button">'+ first_list_item.find("a").html() +'</div>');
+		}
+		
+		$('#cssmenu #menu-button').on('click', function(){
+			var menu = $(this).next('ul');
+			if (menu.hasClass('open')) {
+				menu.removeClass('open');
+			}
+			else {
+				menu.addClass('open');
+			}
+		});
 
-    $('#cssmenu ul').on('click', function(){     
-      $(this).removeClass('open');        
-    });
-  });  
+		$('#cssmenu ul').on('click', function(){     
+			$(this).removeClass('open');        
+		});
+	});  
 
-  var graph_colors = ["#cb513a", "#73c03a", "#65b9ac", "#4682b4", "#96557e", "#785f43", "#858772", "#b5b6a9", "#c7b439", "#4fbd66", "#55a9b7", "#724ea5", "#874c4f", "#817959", "#9d9f8d", "#b9b777", "#7ec244", "#52ba98", "#4f65b0", "#964d89", "#846552", "#929171", "#aaac82", "#c1945a", "#c7b439"];
+	var graph_colors = ["#cb513a", "#73c03a", "#65b9ac", "#4682b4", "#96557e", "#785f43", "#858772", "#b5b6a9", "#c7b439", "#4fbd66", "#55a9b7", "#724ea5", "#874c4f", "#817959", "#9d9f8d", "#b9b777", "#7ec244", "#52ba98", "#4f65b0", "#964d89", "#846552", "#929171", "#aaac82", "#c1945a", "#c7b439"];
 
-  var matrics_data = #{@matrics_data}  
- 
-  var charts = []
-  $(function () {
-    var legend_layout;
-    var legend_v_align;
-    var legend_h_align;
-      if ($(window).width() < 640){
-        // legend_layout = "horizontal"; 
-        // legend_v_align = "bottom";
-        // legend_h_align = "middle";
-        legend_layout = "vertical";
-        legend_v_align = "middle";
-        legend_h_align = "right";
-      }else{
-        legend_layout = "vertical";
-        legend_v_align = "middle";
-        legend_h_align = "right";
-      } 
-  
-    $.each(matrics_data, function(i, matric) {     
-      var seriesOptions = [],
-          seriesCounter = 0,    
-          systems = matric['comps']
+	var matrics_data = #{@matrics_data} 
+	var previous_timestamp = #{@previous_timestamp} 
+	
+	if (url('?start') == "24_hours_ago"){
+		setInterval(function () {
+			$.get("?start="+previous_timestamp, function(data, status){        										
+				previous_timestamp = data.previous_timestamp       
+							
+				$.each(data.stats, function(i, stat) {				
+					chart = charts.filter(function (chart) {				
+						return chart.renderTo.id == stat.name;
+					})[0];
 
-      var $div = $("<div>", {id: matric.name, class: "chart_container"});
-      $("#container").append($div);
-      
-      $(".highcharts-legend-item tspan:last-child").css("visibility","hidden");
-      createChart = function () {
-        charts.push(new Highcharts.StockChart({
-            title: {
-              text: matric.description
-            },
-            credits: {
-              enabled: false
-            },
-            chart: {
-              renderTo: matric.name,
-              pinchType: "xy",
-              zoomType: "xy",
-              resetZoomButton: {
-                position: {
-                  align: 'right', 
-                  verticalAlign: 'bottom'                
-                }
-              },
-              events: {          
-                redraw: function () {                  
-                  // modify the legend symbol from a line to a rect                  
-                  $(".highcharts-legend-item path").attr('stroke-width', 12);
-                  $(".highcharts-series-group").find(".highcharts-series:last").css("visibility","hidden");
+					$.each(stat.comps, function(i, comp) {		    	
+						$.each(comp.data, function(j, data) {
+							chart.series[i].addPoint([data["x"], data["y"]], true, false);
+						})
+					})
+				})
+			});
+		}, 60000);
+	}
+	
+	var charts = []
+	$(function () {
+		var legend_layout;
+		var legend_v_align;
+		var legend_h_align;
+			if ($(window).width() < 640){
+				// legend_layout = "horizontal"; 
+				// legend_v_align = "bottom";
+				// legend_h_align = "middle";
+				legend_layout = "vertical";
+				legend_v_align = "middle";
+				legend_h_align = "right";
+			}else{
+				legend_layout = "vertical";
+				legend_v_align = "middle";
+				legend_h_align = "right";
+			} 
+	
+		$.each(matrics_data, function(i, matric) {     
+			var seriesOptions = [],
+					seriesCounter = 0,    
+					systems = matric['comps']
 
-                  // var chart = this;                    
-                  // $.each(chart.legend.allItems, function(i, item){
-                  //     var $check = $(item.checkbox),
-                  //         left = parseFloat($check.css('left')),
-                  //         label = item.legendItem,
-                  //         static = 40;                     
-                                           
-                  //     $check.css({
-                  //         left: (left - $(label.element).width() - static) + 'px'  
-                  //     });
-                                        
-                  // });
+			var $div = $("<div>", {id: matric.name, class: "chart_container"});
+			$("#container").append($div);
+			
+			$(".highcharts-legend-item tspan:last-child").css("visibility","hidden");
+			createChart = function () {
 
-                },          
-                load: function () {
-                  // modify the legend symbol from a line to a rect                  
-                  $(".highcharts-legend-item path").attr('stroke-width', 12);
-                  
-                  var chart = this;                    
-                  $.each(chart.legend.allItems, function(i, item){
-                      var $check = $(item.checkbox),
-                          left = parseFloat($check.css('left')),
-                          label = item.legendItem,
-                          static = 40;                     
-                                           
-                      $check.css({
-                          left: (left - $(label.element).width() - static) + 'px'  
-                      });
-                                        
-                  });
+				charts.push(new Highcharts.StockChart({
+						title: {
+							text: matric.description
+						},
+						credits: {
+							enabled: false
+						},
+						chart: {
+							renderTo: matric.name,
+							className: matric.name,
+							name: matric.name,
+							pinchType: "xy",
+							zoomType: "xy",
+							resetZoomButton: {
+								position: {
+									align: 'right', 
+									verticalAlign: 'bottom'                
+								}
+							},
+							events: {          
+								redraw: function () {                  
+									// modify the legend symbol from a line to a rect                  
+									$(".highcharts-legend-item path").attr('stroke-width', 12);
+									$(".highcharts-series-group").find(".highcharts-series:last").css("visibility","hidden");								
+									
+								},          
+								load: function () {									
+									// modify the legend symbol from a line to a rect                  
+									$(".highcharts-legend-item path").attr('stroke-width', 12);									
+															
+									var chart = this;                    
+									$.each(chart.legend.allItems, function(i, item){
+											var $check = $(item.checkbox),
+													left = parseFloat($check.css('left')),
+													label = item.legendItem,
+													static = 40;                     
+																					 
+											$check.css({
+													left: (left - $(label.element).width() - static) + 'px'  
+											});
+																				
+									});
 
-                  $(".highcharts-legend-item tspan:last-child").html("")
-                  $(".highcharts-legend-item tspan:last-child").css("visibility","visible");                  
+									$(".highcharts-legend-item tspan:last-child").html("")
+									$(".highcharts-legend-item tspan:last-child").css("visibility","visible");                  
 
-                }
-              }
-            },      
-            navigator: {
-              height: 20
-            },          
-            legend: {
-              enabled: true,
-              align: legend_h_align,                  
-              layout: legend_layout,
-              verticalAlign: legend_v_align,
-              itemMarginTop: 2,
-              itemMarginLeft: 10,
-              itemMarginBottom: 2,
-              symbolWidth: 18,     
+								}
+							}
+						},      
+						navigator: {
+							height: 20
+						},          
+						legend: {
+							enabled: true,
+							align: legend_h_align,                  
+							layout: legend_layout,
+							verticalAlign: legend_v_align,
+							itemMarginTop: 2,
+							itemMarginLeft: 10,
+							itemMarginBottom: 2,
+							symbolWidth: 18,     
 
-              labelFormatter: function () {
-                if (this.point && typeof this.point.series != "undefined"){                               
-                  var matric = matrics_data[this.point.series.options.dataLabels] 
-                      if (this.state == ".")                    
-                    return '<span style="color:'+this.color+'">'+this.name+': </span><span class="value" >' + parseFloat(this.point.y*matric.multiplier).toFixed(2) + ' ' + matric.unit + '</span>' 
-                  else
-                    return '<span style="color:'+this.color+'">'+this.name+': </span><span class="value"></span>'           
-                }
-                else
-                  return '<span style="color:'+this.color+'">'+this.name+': </span><span class="value">%%%%%%%%%</span>'                
-              }                              
-            },
-            rangeSelector: {
-                buttons: [{                
-                    type: 'all',
-                    text: 'All'
-                }],                
-                inputEnabled: true,
-                selected: 1
-            },
-            yAxis: {
-                labels: {
-                    formatter: function () {                       
-                      var matric = matrics_data[this.chart.series[0].options.dataLabels]              
-                      return (this.y > 0 ? ' + ' : '') + this.value*matric.multiplier + matric.unit;
-                    }
-                },
-                min: 0 
-            },    
-            tooltip: {
-              enabled: true,
-              formatter:function(){                     
-                chart = this.points[0].series.chart
-                var legendOptions = chart.legend.options,
-                    hoverPoints = chart.hoverPoints;                
-                if (!hoverPoints && chart.hoverPoint) {
-                    hoverPoints = [chart.hoverPoint];
-                }
+							labelFormatter: function () {
+								if (this.point && typeof this.point.series != "undefined"){                               
+									var matric = matrics_data[this.point.series.options.dataLabels] 
+											if (this.state == ".")                    
+										return '<span style="color:'+this.color+'">'+this.name+': </span><span class="value" >' + parseFloat(this.point.y*matric.multiplier).toFixed(2) + ' ' + matric.unit + '</span>' 
+									else
+										return '<span style="color:'+this.color+'">'+this.name+': </span><span class="value"></span>'           
+								}
+								else
+									return '<span style="color:'+this.color+'">'+this.name+': </span><span class="value">%%%%%%%%%</span>'                
+							}                              
+						},
+						rangeSelector: {
+							buttons: [{                
+								type: 'all',
+								text: 'All'
+							}],                
+							inputEnabled: true,
+							selected: 1
+						},
+						xAxis: {       
+							ordinal: false
+						},
+						yAxis: {
+								labels: {
+										formatter: function () {                       
+											var matric = matrics_data[this.chart.series[0].options.dataLabels]              
+											return (this.y > 0 ? ' + ' : '') + this.value*matric.multiplier + matric.unit;
+										}
+								},
+								min: 0 
+						},    
+						tooltip: {
+							enabled: true,
+							formatter:function(){                     
+								chart = this.points[0].series.chart
+								var legendOptions = chart.legend.options,
+										hoverPoints = chart.hoverPoints;                
+								if (!hoverPoints && chart.hoverPoint) {
+										hoverPoints = [chart.hoverPoint];
+								}
 
-                var hoverComps = [];
-                if (hoverPoints) {  
-                  $(hoverPoints).each(function(i, point){                    
-                    point.series.point = point;
-                    hoverComps.push(point.series.name)
-                  });      
-                      
-                  $(chart.legend.allItems).each(function(i, item){
-                    item.state = "."                 
-                    if (hoverComps.indexOf(item.name) == -1){     
-                      item.state = "nil"                    
-                      $(item.legendItem.element).find("tspan:last-child").css("visibility","hidden")
-                    }       
-                    else
+								var hoverComps = [];
+								if (hoverPoints) {  
+									$(hoverPoints).each(function(i, point){                    
+										point.series.point = point;
+										hoverComps.push(point.series.name)
+									});      
+											
+									$(chart.legend.allItems).each(function(i, item){
+										item.state = "."                 
+										if (hoverComps.indexOf(item.name) == -1){     
+											item.state = "nil"                    
+											$(item.legendItem.element).find("tspan:last-child").css("visibility","hidden")
+										}       
+										else
 
-                    item.legendItem.attr({
-                      text: legendOptions.labelFormat ? 
-                        H.format(legendOptions.labelFormat, item) :
-                        legendOptions.labelFormatter.call(item)
-                    });  
-                  });
+										item.legendItem.attr({
+											text: legendOptions.labelFormat ? 
+												H.format(legendOptions.labelFormat, item) :
+												legendOptions.labelFormatter.call(item)
+										});  
+									});
 
-                  //chart.legend.render(); 
-                  //chart.reflow();
-                  // $.each(chart.legend.allItems, function(i, item){
+									//chart.legend.render(); 
+									//chart.reflow();
+									// $.each(chart.legend.allItems, function(i, item){
 
-                  //   var $check = $(item.checkbox),
-                  //       left = parseFloat($check.css('left')),
-                  //       label = item.legendItem,
-                  //       static = 40;                     
-                                         
-                  //   $check.css({
-                  //       left: (left - $(label.element).width() - static) + 'px'  
-                  //   });                                      
-                  // });
+									//   var $check = $(item.checkbox),
+									//       left = parseFloat($check.css('left')),
+									//       label = item.legendItem,
+									//       static = 40;                     
+																				 
+									//   $check.css({
+									//       left: (left - $(label.element).width() - static) + 'px'  
+									//   });                                      
+									// });
 
-                  return false
-                }              
-              }
-            },
-            plotOptions: {              
-              series: {
-                showCheckbox: true,
-                cursor : 'pointer',
-                turboThreshold: 0,
-                showCheckbox:true,
-                selected: true,
-                stickyTracking: false,
-                events: {
-                  checkboxClick: function (event) {
-                    if (event.checked) {
-                      this.show();                     
-                      var element = $(this.legendItem.element).find("tspan:first")
-                      element.attr('style', element.attr('stylee'));
-                      element.removeAttr('stylee');
-                      $(this.legend.allItems[i].checkbox).prop('checked', true);
-                    } else {                      
-                      this.hide();                      
-                      var element = $(this.legendItem.element).find("tspan:first")
-                      element.attr('stylee', element.attr('style'));
-                      element.removeAttr('style');
-                      $(this.legend.allItems[i].checkbox).prop('checked', false);                   
-                    }
-                  },
-                  legendItemClick: function() {
-                    return false;
-                  }
-                }              
-              }
-            },
-            series: seriesOptions,
-              exporting: {
-                buttons: {
-                  legend_select_all: {
-                    id: 'legend_select_all',
-                    text: 'Deselect all',
-                    y: 320,
-                    onclick: function () {                      
-                      if (this.series[0].visible == true){
-                        $(this.series).each(function(){                        
-                          this.setVisible(false, true);
-                        });         
+									return false
+								}              
+							}
+						},
+						plotOptions: {              
+							series: {
+								showCheckbox: true,
+								cursor : 'pointer',
+								turboThreshold: 0,
+								showCheckbox:true,
+								selected: true,
+								stickyTracking: false,
+								events: {					
+									// mouseOver: function () {
+									//   this["group"].animate({
+									//   opacity: 0.25
+									// },{
+									//   duration: 150
+									// });                
+									// },
+									checkboxClick: function (event) {
+										if (event.checked) {
+											this.show();                     
+											var element = $(this.legendItem.element).find("tspan:first")
+											element.attr('style', element.attr('stylee'));
+											element.removeAttr('stylee');
+											$(this.legend.allItems[i].checkbox).prop('checked', true);
+										} else {                      
+											this.hide();                      
+											var element = $(this.legendItem.element).find("tspan:first")
+											element.attr('stylee', element.attr('style'));
+											element.removeAttr('style');
+											$(this.legend.allItems[i].checkbox).prop('checked', false);                   
+										}
+									},
+									legendItemClick: function() {
+										return false;
+									}
 
-                        for (var i = 0; i < this.legend.allItems.length; i++) {                
-                          var element = $(this.legend.allItems[i].legendItem.element).find("tspan:first");
-                          element.attr('stylee', element.attr('style'));
-                          element.removeAttr('style');
-                          $(this.legend.allItems[i].checkbox).prop('checked', false);           
-                        }
-                      }
-                      else{
-                        $(this.series).each(function(){                        
-                          this.setVisible(true, true);
-                        });         
+								}              
+							}
+						},
+						series: seriesOptions,
+							exporting: {
+								buttons: {
+									legend_select_all: {
+										id: 'legend_select_all',
+										text: 'Deselect all',
+										y: 320,
+										onclick: function () {     
+											  
+											if (this.series[0].visible == true){												
+												$(this.series).each(function(){                        
+													this.setVisible(false, true);
+												});         
 
-                        for (var i = 0; i < this.legend.allItems.length; i++) {                
-                          var element = $(this.legend.allItems[i].legendItem.element).find("tspan:first");
-                          element.attr('stylee', element.attr('style'));
-                          element.removeAttr('style');
-                          $(this.legend.allItems[i].checkbox).prop('checked', true);           
-                        }
-                      } 
-                    }                    
-                  }
-                }
-              }
-        }));
-      };
+												for (var i = 0; i < this.legend.allItems.length; i++) {                
+													var element = $(this.legend.allItems[i].legendItem.element).find("tspan:first");
+													element.attr('stylee', element.attr('style'));
+													element.removeAttr('style');
+													$(this.legend.allItems[i].checkbox).prop('checked', false);           
+												}
+												$(this.container).find(".highcharts-button:last tspan").html("Select all")
+											}
+											else{
+												$(this.series).each(function(){                        
+													this.setVisible(true, true);
+												});         
 
-      $.each(systems, function (i) {           
-        seriesOptions[i] = {
-          name: systems[i].name,
-          data: systems[i].data,
-          color: graph_colors[i],
-          dataLabels: matric.name      
-        };   
-        seriesCounter += 1;
-        if (seriesCounter === systems.length) {
-            createChart();
-        }     
-      });
-    })
-  }); 
-  
+												for (var i = 0; i < this.legend.allItems.length; i++) {                
+													var element = $(this.legend.allItems[i].legendItem.element).find("tspan:first");
+													element.attr('stylee', element.attr('style'));
+													element.removeAttr('style');
+													$(this.legend.allItems[i].checkbox).prop('checked', true);           
+												}
+												$(this.container).find(".highcharts-button:last tspan").html("Deselect all")
+											} 
+										}                    
+									}
+								}
+							}
+				}));
+			};
+
+			$.each(systems, function (i) { 				
+				seriesOptions[i] = {
+					name: systems[i].name,
+					data: systems[i].data,
+					color: graph_colors[i],
+					dataLabels: matric.name      
+				};   
+				seriesCounter += 1;
+				if (seriesCounter === systems.length) {
+						createChart();
+				}     
+			});
+		})
+	}); 
+	
 
 
-    /**
-   * Dark theme for Highcharts JSthis.point
-   * @author Torstein Honsi
-   */
+		/**
+	 * Dark theme for Highcharts JSthis.point
+	 * @author Torstein Honsi
+	 */
 
-  // Load the fonts
-  Highcharts.createElement('link', {
-     href: '//fonts.googleapis.com/css?family=Unica+One',
-     rel: 'stylesheet',
-     type: 'text/css'
-  }, null, document.getElementsByTagName('head')[0]);
+	// Load the fonts
+	Highcharts.createElement('link', {
+		 href: '//fonts.googleapis.com/css?family=Unica+One',
+		 rel: 'stylesheet',
+		 type: 'text/css'
+	}, null, document.getElementsByTagName('head')[0]);
 
-  Highcharts.theme = {
-     colors: ["#2b908f", "#90ee7e", "#f45b5b", "#7798BF", "#aaeeee", "#ff0066", "#eeaaee",
-        "#55BF3B", "#DF5353", "#7798BF", "#aaeeee"],
-     chart: {
-        backgroundColor: {
-           linearGradient: { x1: 0, y1: 0, x2: 1, y2: 1 },
-           stops: [
-              [0, '#2a2a2b'],
-              [1, '#3e3e40']
-           ]
-        },
-        style: {
-           fontFamily: "'Unica One', sans-serif"
-        },
-        plotBorderColor: '#606063'
-     },
-     title: {
-        style: {
-           color: '#E0E0E3',
-           textTransform: 'uppercase',
-           fontSize: '20px'
-        }
-     },
-     subtitle: {
-        style: {
-           color: '#E0E0E3',
-           textTransform: 'uppercase'
-        }
-     },
-     xAxis: {
-        gridLineColor: '#707073',
-        labels: {
-           style: {
-              color: '#E0E0E3'
-           }
-        },
-        lineColor: '#707073',
-        minorGridLineColor: '#505053',
-        tickColor: '#707073',
-        title: {
-           style: {
-              color: '#A0A0A3'
+	Highcharts.theme = {
+		 colors: ["#2b908f", "#90ee7e", "#f45b5b", "#7798BF", "#aaeeee", "#ff0066", "#eeaaee",
+				"#55BF3B", "#DF5353", "#7798BF", "#aaeeee"],
+		 chart: {
+				backgroundColor: {
+					 linearGradient: { x1: 0, y1: 0, x2: 1, y2: 1 },
+					 stops: [
+							[0, '#2a2a2b'],
+							[1, '#3e3e40']
+					 ]
+				},
+				style: {
+					 fontFamily: "'Unica One', sans-serif"
+				},
+				plotBorderColor: '#606063'
+		 },
+		 title: {
+				style: {
+					 color: '#E0E0E3',
+					 textTransform: 'uppercase',
+					 fontSize: '20px'
+				}
+		 },
+		 subtitle: {
+				style: {
+					 color: '#E0E0E3',
+					 textTransform: 'uppercase'
+				}
+		 },
+		 xAxis: {
+				gridLineColor: '#707073',
+				labels: {
+					 style: {
+							color: '#E0E0E3'
+					 }
+				},
+				lineColor: '#707073',
+				minorGridLineColor: '#505053',
+				tickColor: '#707073',
+				title: {
+					 style: {
+							color: '#A0A0A3'
 
-           }
-        }
-     },
-     yAxis: {
-        gridLineColor: '#707073',
-        labels: {
-           style: {
-              color: '#E0E0E3'
-           }
-        },
-        lineColor: '#707073',
-        minorGridLineColor: '#505053',
-        tickColor: '#707073',
-        tickWidth: 1,
-        title: {
-           style: {
-              color: '#A0A0A3'
-           }
-        }
-     },
-     tooltip: {
-        backgroundColor: 'rgba(0, 0, 0, 0.85)',
-        style: {
-           color: '#F0F0F0'
-        }
-     },
-     plotOptions: {
-        series: {
-           dataLabels: {
-              color: '#B0B0B3'
-           },
-           marker: {
-              lineColor: '#333'
-           }
-        },
-        boxplot: {
-           fillColor: '#505053'
-        },
-        candlestick: {
-           lineColor: 'white'
-        },
-        errorbar: {
-           color: 'white'
-        }
-     },
-     legend: {
-        itemStyle: {
-           color: '#E0E0E3'
-        },
-        itemHoverStyle: {
-           color: '#FFF'
-        },
-        itemHiddenStyle: {
-           color: '#606063'
-        }
-     },
-     credits: {
-        style: {
-           color: '#666'
-        }
-     },
-     labels: {
-        style: {
-           color: '#707073'
-        }
-     },
+					 }
+				}
+		 },
+		 yAxis: {
+				gridLineColor: '#707073',
+				labels: {
+					 style: {
+							color: '#E0E0E3'
+					 }
+				},
+				lineColor: '#707073',
+				minorGridLineColor: '#505053',
+				tickColor: '#707073',
+				tickWidth: 1,
+				title: {
+					 style: {
+							color: '#A0A0A3'
+					 }
+				}
+		 },
+		 tooltip: {
+				backgroundColor: 'rgba(0, 0, 0, 0.85)',
+				style: {
+					 color: '#F0F0F0'
+				}
+		 },
+		 plotOptions: {
+				series: {
+					 dataLabels: {
+							color: '#B0B0B3'
+					 },
+					 marker: {
+							lineColor: '#333'
+					 }
+				},
+				boxplot: {
+					 fillColor: '#505053'
+				},
+				candlestick: {
+					 lineColor: 'white'
+				},
+				errorbar: {
+					 color: 'white'
+				}
+		 },
+		 legend: {
+				itemStyle: {
+					 color: '#E0E0E3'
+				},
+				itemHoverStyle: {
+					 color: '#FFF'
+				},
+				itemHiddenStyle: {
+					 color: '#606063'
+				}
+		 },
+		 credits: {
+				style: {
+					 color: '#666'
+				}
+		 },
+		 labels: {
+				style: {
+					 color: '#707073'
+				}
+		 },
 
-     drilldown: {
-        activeAxisLabelStyle: {
-           color: '#F0F0F3'
-        },
-        activeDataLabelStyle: {
-           color: '#F0F0F3'
-        }
-     },
+		 drilldown: {
+				activeAxisLabelStyle: {
+					 color: '#F0F0F3'
+				},
+				activeDataLabelStyle: {
+					 color: '#F0F0F3'
+				}
+		 },
 
-     navigation: {
-        buttonOptions: {
-           symbolStroke: '#DDDDDD',
-           theme: {
-              fill: '#505053'
-           }
-        }
-     },
+		 navigation: {
+				buttonOptions: {
+					 symbolStroke: '#DDDDDD',
+					 theme: {
+							fill: '#505053'
+					 }
+				}
+		 },
 
-     // scroll charts
-     rangeSelector: {
-        buttonTheme: {
-           fill: '#505053',
-           stroke: '#000000',
-           style: {
-              color: '#CCC'
-           },
-           states: {
-              hover: {
-                 fill: '#707073',
-                 stroke: '#000000',
-                 style: {
-                    color: 'white'
-                 }
-              },
-              select: {
-                 fill: '#000003',
-                 stroke: '#000000',
-                 style: {
-                    color: 'white'
-                 }
-              }
-           }
-        },
-        inputBoxBorderColor: '#505053',
-        inputStyle: {
-           backgroundColor: '#333',
-           color: 'silver'
-        },
-        labelStyle: {
-           color: 'silver'
-        }
-     },
+		 // scroll charts
+		 rangeSelector: {
+				buttonTheme: {
+					 fill: '#505053',
+					 stroke: '#000000',
+					 style: {
+							color: '#CCC'
+					 },
+					 states: {
+							hover: {
+								 fill: '#707073',
+								 stroke: '#000000',
+								 style: {
+										color: 'white'
+								 }
+							},
+							select: {
+								 fill: '#000003',
+								 stroke: '#000000',
+								 style: {
+										color: 'white'
+								 }
+							}
+					 }
+				},
+				inputBoxBorderColor: '#505053',
+				inputStyle: {
+					 backgroundColor: '#333',
+					 color: 'silver'
+				},
+				labelStyle: {
+					 color: 'silver'
+				}
+		 },
 
-     navigator: {
-        handles: {
-           backgroundColor: '#666',
-           borderColor: '#AAA'
-        },
-        outlineColor: '#CCC',
-        maskFill: 'rgba(255,255,255,0.1)',
-        series: {
-           color: '#7798BF',
-           lineColor: '#A6C7ED'
-        },
-        xAxis: {
-           gridLineColor: '#505053'
-        }
-     },
+		 navigator: {
+				handles: {
+					 backgroundColor: '#666',
+					 borderColor: '#AAA'
+				},
+				outlineColor: '#CCC',
+				maskFill: 'rgba(255,255,255,0.1)',
+				series: {
+					 color: '#7798BF',
+					 lineColor: '#A6C7ED'
+				},
+				xAxis: {
+					 gridLineColor: '#505053'
+				}
+		 },
 
-     scrollbar: {
-        barBackgroundColor: '#808083',
-        barBorderColor: '#808083',
-        buttonArrowColor: '#CCC',
-        buttonBackgroundColor: '#606063',
-        buttonBorderColor: '#606063',
-        rifleColor: '#FFF',
-        trackBackgroundColor: '#404043',
-        trackBorderColor: '#404043'
-     },
+		 scrollbar: {
+				barBackgroundColor: '#808083',
+				barBorderColor: '#808083',
+				buttonArrowColor: '#CCC',
+				buttonBackgroundColor: '#606063',
+				buttonBorderColor: '#606063',
+				rifleColor: '#FFF',
+				trackBackgroundColor: '#404043',
+				trackBorderColor: '#404043'
+		 },
 
-     // special colors for some of the
-     legendBackgroundColor: 'rgba(0, 0, 0, 0.5)',
-     background2: '#505053',
-     dataLabelsColor: '#B0B0B3',
-     textColor: '#C0C0C0',
-     contrastTextColor: '#F0F0F3',
-     maskColor: 'rgba(255,255,255,0.3)'
-  };
+		 // special colors for some of the
+		 legendBackgroundColor: 'rgba(0, 0, 0, 0.5)',
+		 background2: '#505053',
+		 dataLabelsColor: '#B0B0B3',
+		 textColor: '#C0C0C0',
+		 contrastTextColor: '#F0F0F3',
+		 maskColor: 'rgba(255,255,255,0.3)'
+	};
 
-  // Apply the theme
-  //Highcharts.setOptions(Highcharts.theme);
+	// Apply the theme
+	//Highcharts.setOptions(Highcharts.theme);
 
-  
+	
 
-  /**
-     * Highcharts plugin for setting a lower opacity for other series than the one that is hovered
-     * in the legend
-     */
-  (function (Highcharts) {
-      var each = Highcharts.each;
-      
-      Highcharts.wrap(Highcharts.Legend.prototype, 'renderItem', function (proceed, item) {
-          
-          proceed.call(this, item);
-          
-          
-          var isPoint = !!item.series,
-              collection = isPoint ? item.series.points : this.chart.series,
-              groups = isPoint ? ['graphic'] : ['group', 'markerGroup'],
-              element = item.legendGroup.element;
-          
-          element.onmouseover = function () {
-             each(collection, function (seriesItem) {
-                  if (seriesItem !== item) {
-                      each(groups, function (group) {
-                          seriesItem[group].animate({
-                              opacity: 0.25
-                          }, {
-                              duration: 150
-                          });
-                      });
-                  }
-              });
-          }
-          element.onmouseout = function () {
-             each(collection, function (seriesItem) {
-                  if (seriesItem !== item) {
-                      each(groups, function (group) {
-                          seriesItem[group].animate({
-                              opacity: 1
-                          }, {
-                              duration: 50
-                          });
-                      });
-                  }
-              });
-          }           
-          
-      });
-  }(Highcharts));
+	/**
+		 * Highcharts plugin for setting a lower opacity for other series than the one that is hovered
+		 * in the legend
+		 */
+	(function (Highcharts) {
+			var each = Highcharts.each;
+			
+			Highcharts.wrap(Highcharts.Series.prototype, 'onMouseOver', function (proceed) {
+				proceed.apply(this, Array.prototype.slice.call(arguments, 1));
+
+				var series = this,			
+					collection = this.chart.series,
+					groups = ['group', 'markerGroup']						
+			
+				each(collection, function (seriesItem) {		
+					if (seriesItem !== series && seriesItem.name != "Navigator") {					
+						
+						var legend_item = $(seriesItem.legendItem.element).find("tspan:first")
+						legend_item.attr('stylee', legend_item.attr('style'));
+						legend_item.removeAttr('style');
+
+						each(groups, function (group) {
+							seriesItem[group].animate({
+									opacity: 0.25
+							}, {
+									duration: 150
+							});
+						});
+					}
+				});
+			})
+		
+			Highcharts.wrap(Highcharts.Series.prototype, 'onMouseOut', function (proceed) {
+				proceed.apply(this, Array.prototype.slice.call(arguments, 1));
+				
+				var series = this,			
+					collection = this.chart.series,
+					groups = ['group', 'markerGroup']			
+
+				each(collection, function (seriesItem) {		
+					if (seriesItem !== series && seriesItem.name != "Navigator") {
+
+						var legend_item = $(seriesItem.legendItem.element).find("tspan:first")
+						legend_item.attr('style', legend_item.attr('stylee'));
+						legend_item.removeAttr('stylee');
+
+						each(groups, function (group) {
+							seriesItem[group].animate({
+									opacity: 1
+							}, {
+									duration: 50
+							});
+						});
+					}
+				});
+
+			})
+			Highcharts.wrap(Highcharts.Legend.prototype, 'renderItem', function (proceed, item) {
+					
+				proceed.call(this, item);
+
+				var isPoint = !!item.series,
+					collection = isPoint ? item.series.points : this.chart.series,
+					groups = isPoint ? ['graphic'] : ['group', 'markerGroup'],
+					element = item.legendGroup.element;
+								
+				element.onmouseover = function () {					
+				 each(collection, function (seriesItem) {
+						if (seriesItem !== item) {
+							each(groups, function (group) {
+								seriesItem[group].animate({
+										opacity: 0.25
+								}, {
+										duration: 150
+								});
+						});
+						}
+					});
+				}
+				element.onmouseout = function () {
+				 each(collection, function (seriesItem) {
+						if (seriesItem !== item) {
+							each(groups, function (group) {
+								seriesItem[group].animate({
+										opacity: 1
+								}, {
+										duration: 50
+								});
+							});
+						}
+					});
+				}           
+					
+			});
+	}(Highcharts));

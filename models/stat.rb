@@ -18,10 +18,10 @@ class Stat < ActiveRecord::Base
       last_period(start, end_, stat)
     end
 
-    def start_and_end(start, end_, stat = nil)      
-      start = epoch?(start) ? Time.at(start.to_i) : Chronic.parse(start, :endian_precedence => :little)      
+    def start_and_end(start, end_, timestamp = nil, stat = nil)      
+      start = epoch?(start) ? Time.at(start.to_i) : Chronic.parse(start, :endian_precedence => :little)     
       end_ = epoch?(end_) ? Time.at(end_.to_i) : Chronic.parse((end_ || Time.now.to_s), :endian_precedence => :little)            
-      last_period(start, end_, stat)
+      return last_period(start, end_, stat)
     end
 
     def ago(ago, stat = nil)     
@@ -53,8 +53,7 @@ class Stat < ActiveRecord::Base
       if time =~ /^[0-9]+$/ && time.length > 7 then true else false end
     end
 
-    def get_granularity(time_range)    
-      puts time_range
+    def get_granularity(time_range)          
       case  
       when time_range <= DAY
         "10"
@@ -81,16 +80,20 @@ class Stat < ActiveRecord::Base
 
     def last_period(start, end_, stat = nil)
       puts start.to_i
-      puts end_.to_i  
+      puts end_.to_i 
+      
+      #timestamp &&  start = timestamp  
+      start = start.to_i        
 
-      start = start.to_i
       end_ = end_.to_i    
       granularity_level = get_granularity(end_ - start)
 
       if stat        
-        return ActiveRecord::Base.connection.select_all("SELECT id, comp_id, timestamp, #{stat} FROM stats WHERE timestamp >= #{start} AND timestamp < #{end_} AND FIND_IN_SET(#{granularity_level}, granularity) > 0")
-      else        
-        return ActiveRecord::Base.connection.select_all("SELECT * FROM stats WHERE timestamp >= #{start} AND timestamp < #{end_} AND FIND_IN_SET(#{granularity_level}, granularity) > 0")
+        return ActiveRecord::Base.connection.select_all("SELECT id, comp_id, timestamp, #{stat} FROM stats WHERE timestamp >= #{start} AND timestamp < #{end_} AND FIND_IN_SET(#{granularity_level}, granularity) > 0"),
+          ActiveRecord::Base.connection.select_all("SELECT MAX(timestamp) FROM stats WHERE timestamp >= #{start} AND timestamp < #{end_} AND FIND_IN_SET(#{granularity_level}, granularity) > 0")[0]["MAX(timestamp)"]
+      else       
+        return ActiveRecord::Base.connection.select_all("SELECT * FROM stats WHERE timestamp >= #{start} AND timestamp < #{end_} AND FIND_IN_SET(#{granularity_level}, granularity) > 0"),
+          ActiveRecord::Base.connection.select_all("SELECT MAX(timestamp) FROM stats WHERE timestamp >= #{start} AND timestamp < #{end_} AND FIND_IN_SET(#{granularity_level}, granularity) > 0")[0]["MAX(timestamp)"]
       end      
     end
 

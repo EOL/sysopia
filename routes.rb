@@ -1,3 +1,5 @@
+require 'sinatra/contrib'
+
 get "/css/:filename.css" do
   scss :"sass/#{params[:filename]}"
 end
@@ -22,16 +24,23 @@ get "/" do
   elsif start.present? && length.present?
   	stats = Stat.start_and_length(start, length)
   elsif start.present?  	
-  	stats = Stat.start_and_end(start, end_)
+  	stats, end_ = Stat.start_and_end(start, end_)
   elsif ago.present?    
-    stats = Stat.ago(ago)
+    stats = Stat.ago(ago, timestamp)
   else 	 	
   	redirect '/?start=24_hours_ago'
   end
 
   ct = Sysopia::ChartTable.new(stats)  
   @matrics_data = ct.matrics.to_json
+  @previous_timestamp = end_
   
-  haml :home
+  json_data = {:stats => ct.matrics, :previous_timestamp => @previous_timestamp}.to_json
+
+  respond_to do |format|
+    format.json { json_data }
+    format.html { haml :home }
+  end
+  
 end
 

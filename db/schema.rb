@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150621050635) do
+ActiveRecord::Schema.define(version: 20150726085427) do
 
   create_table "comps", force: :cascade do |t|
     t.string  "sensu_name",   limit: 255
@@ -40,6 +40,7 @@ ActiveRecord::Schema.define(version: 20150621050635) do
     t.float   "interrups",           limit: 24
     t.float   "context_switches",    limit: 24
     t.float   "memory_taken",        limit: 24
+    t.float   "disk_usage",          limit: 24
     t.integer "processes_waiting",   limit: 4
     t.integer "processes_iowaiting", limit: 4
     t.string  "granularity",         limit: 0

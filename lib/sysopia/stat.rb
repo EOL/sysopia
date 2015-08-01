@@ -75,6 +75,11 @@ module Sysopia
         description: "Number of Processes Locked in IO Wait",
         unit: nil,
         multiplier: 1
+      },
+      disk_usage: {
+        description: "Usage of Most Used HDD Partition",
+        unit: "%",
+        multiplier: 1
       }
     }
   end

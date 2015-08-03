@@ -27,7 +27,7 @@ class Sysopia < Sensu::Handler
     cpu_iowaiting: "cpu_wait",
     load_per_cpu_one_minute: "load_one",
     load_per_cpu_five_minutes: "load_five",
-    load_per_cpu_fifteen_minutes: "load_fifteen"
+    load_per_cpu_fifteen_minutes: "load_fifteen",
     disk_usage: "disk_usage"
   }
   # override filters from Sensu::Handler. not appropriate for metric handlers

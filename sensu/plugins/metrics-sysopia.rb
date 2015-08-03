@@ -91,8 +91,9 @@ class SysMetrics < Sensu::Plugin::Metric::CLI::Graphite
         five_minutes: (@loadstat[-2]/@cpunum).round(2),
         fifteen_minutes: (@loadstat[-1]/@cpunum).round(2)
       },
-      disk: { usage: @disk_usage }
-    } metrics.each do |parent, children|
+      disk: { usage: @diskusage }
+    }
+    metrics.each do |parent, children|
       children.each do |child, value|
         output [Socket.gethostname, "system", parent, child].join('.'),
           value, timestamp

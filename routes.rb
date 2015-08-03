@@ -20,13 +20,13 @@ get "/" do
   ago.to_s.gsub!(/_/, ' ')  
 
   if time_window.present? && offset.present?
-  	stats = Stat.time_window_and_offset(time_window, offset)
+  	stats, end_, time_diff = Stat.time_window_and_offset(time_window, offset)
   elsif start.present? && length.present?
-  	stats = Stat.start_and_length(start, length)
+  	stats, end_, time_diff = Stat.start_and_length(start, length)
   elsif start.present?  	
-  	stats, end_ = Stat.start_and_end(start, end_)
+  	stats, end_, time_diff = Stat.start_and_end(start, end_)
   elsif ago.present?    
-    stats = Stat.ago(ago, timestamp)
+    stats, end_, time_diff  = Stat.ago(ago, timestamp)
   else 	 	
   	redirect '/?start=24_hours_ago'
   end
@@ -34,6 +34,7 @@ get "/" do
   ct = Sysopia::ChartTable.new(stats)  
   @matrics_data = ct.matrics.to_json
   @previous_timestamp = end_
+  @real_time = time_diff <= Stat::DAY
   
   json_data = {:stats => ct.matrics, :previous_timestamp => @previous_timestamp}.to_json
 

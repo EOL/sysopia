@@ -38,6 +38,7 @@ class SysMetrics < Sensu::Plugin::Metric::CLI::Graphite
     @memstat = convert_floats(`free|tail -n2|head -n1`.split(' '))
     @cpunum =  `cat /proc/cpuinfo |grep processor|wc -l`.to_i
     @loadstat = `uptime`.strip.split(' ').map { |s| s.to_f }
+    @diskusage = `df -lPT |awk '$2 !~ /Type|tmp/ { print $6 }'| sed 's/%//'| sort -n|tail -n1`.to_i
   end
 
   def convert_floats(values)
@@ -89,9 +90,9 @@ class SysMetrics < Sensu::Plugin::Metric::CLI::Graphite
         one_minute: (@loadstat[-3]/@cpunum).round(2),
         five_minutes: (@loadstat[-2]/@cpunum).round(2),
         fifteen_minutes: (@loadstat[-1]/@cpunum).round(2)
-      }
-    }
-    metrics.each do |parent, children|
+      },
+      disk: { usage: @disk_usage }
+    } metrics.each do |parent, children|
       children.each do |child, value|
         output [Socket.gethostname, "system", parent, child].join('.'),
           value, timestamp

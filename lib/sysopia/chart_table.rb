@@ -7,7 +7,7 @@ module Sysopia
 
     def matrics 
       matrics_data = {}
-      selected_matrics = ["load_one", "memory_taken", "io_read", "io_write", "disk_usage"]
+      selected_matrics = ["load_one", "memory_taken", "disk_usage", "io_read", "io_write"]
       #selected_matrics = ["load_one"]
       selected_matrics.each do |matric_name|
         matrics_data[matric_name] = Sysopia::Stat::DATA[matric_name.to_sym].merge({ :name => matric_name, :comps => matric(matric_name) })

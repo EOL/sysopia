@@ -6,6 +6,13 @@ class Stat < ActiveRecord::Base
 
   class << self
 
+    def degrade_year_old_data
+      if Today.new_today?        
+        timestamp = (Chronic.parse(Sysopia.today) - Unit.new('365d')).to_i
+        Stat.where("timestamp < ?", timestamp).destroy_all              
+      end
+    end
+
     def time_window_and_offset(time_window, offset, stat = nil)
       end_ = Time.now - Unit.new(offset)
       start = end_ - Unit.new(time_window)
@@ -78,10 +85,7 @@ class Stat < ActiveRecord::Base
       end     
     end
 
-    def last_period(start, end_, stat = nil)
-      puts start.to_i
-      puts end_.to_i 
- 
+    def last_period(start, end_, stat = nil)  
       start = start.to_i       
       end_ = end_.to_i    
       time_diff = end_ - start

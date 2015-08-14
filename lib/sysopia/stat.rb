@@ -2,7 +2,7 @@ module Sysopia
   class Stat
     DATA = {
       load_one: {
-        description: "Average Load 1 Min",
+        description: "Average Load",
         unit: "%",
         multiplier: 100
       },
@@ -37,12 +37,12 @@ module Sysopia
         multiplier: 100
       },
       io_read: {
-        description: "Reads from Disk to Memory",
+        description: "Reads from Disk",
         unit: "MB/sec",
         multiplier: 1
       },
       io_write: {
-        description: "Write to Disk from Memory",
+        description: "Writes to Disk",
         unit: "MB/sec",
         multiplier: 1
       },
@@ -62,7 +62,7 @@ module Sysopia
         multiplier: 1
       },
       memory_taken: {
-        description: "Percent of Used Memory",
+        description: "Memory Usage",
         unit: "%",
         multiplier: 1
       },
@@ -77,7 +77,7 @@ module Sysopia
         multiplier: 1
       },
       disk_usage: {
-        description: "Usage of Most Used HDD Partition",
+        description: "Max Partition Usage",
         unit: "%",
         multiplier: 1
       }

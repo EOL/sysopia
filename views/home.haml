@@ -82,7 +82,7 @@
 					})
 				})
 			});
-		}, 60000);
+		}, 120000);
 	}
 	
 	var charts = []
@@ -95,11 +95,11 @@
 				// legend_v_align = "bottom";
 				// legend_h_align = "middle";
 				legend_layout = "vertical";
-				legend_v_align = "middle";
+				legend_v_align = "top";
 				legend_h_align = "right";
 			}else{
 				legend_layout = "vertical";
-				legend_v_align = "middle";
+				legend_v_align = "top";
 				legend_h_align = "right";
 			} 
 	
@@ -113,7 +113,7 @@
 			
 			$(".highcharts-legend-item tspan:last-child").css("visibility","hidden");
 			if (real_time){	
-				matric.description += "(Realtime)"
+				matric.description += " (Realtime)"
 			}
 			createChart = function () {
 
@@ -147,18 +147,18 @@
 									// modify the legend symbol from a line to a rect                  
 									$(".highcharts-legend-item path").attr('stroke-width', 12);									
 															
-									var chart = this;                    
-									$.each(chart.legend.allItems, function(i, item){
-											var $check = $(item.checkbox),
-													left = parseFloat($check.css('left')),
-													label = item.legendItem,
-													static = 40;                     
+									// var chart = this;                    
+									// $.each(chart.legend.allItems, function(i, item){
+									// 		var $check = $(item.checkbox),
+									// 				left = parseFloat($check.css('left')),
+									// 				label = item.legendItem,
+									// 				static = 40;                     
 																					 
-											$check.css({
-													left: (left - $(label.element).width() - static) + 'px'  
-											});
+									// 		$check.css({
+									// 				left: (left - $(label.element).width() - static) + 'px'  
+									// 		});
 																				
-									});
+									// });
 
 									$(".highcharts-legend-item tspan:last-child").html("")
 									$(".highcharts-legend-item tspan:last-child").css("visibility","visible");                  
@@ -174,10 +174,13 @@
 							align: legend_h_align,                  
 							layout: legend_layout,
 							verticalAlign: legend_v_align,
+							y: 85,
+							itemMarginTop: 2,
 							itemMarginTop: 2,
 							itemMarginLeft: 10,
 							itemMarginBottom: 2,
-							symbolWidth: 18,     
+							symbolWidth: 18,  
+							itemWidth: 200,   
 
 							labelFormatter: function () {
 								if (this.point && typeof this.point.series != "undefined"){                               
@@ -216,7 +219,7 @@
 							positioner: function(boxWidth, boxHeight, point) {         
 								return {
 									x: point.plotX,
-									y: this.chart.plotTop
+									y: this.chart.plotTop - 35
 								};         
 							},
 							formatter:function(){                     
@@ -313,12 +316,21 @@
 							}
 						},
 						series: seriesOptions,
-							exporting: {
+							exporting: {								
 								buttons: {
+									contextButton: {
+					          menuItems: [{
+										    textKey: 'printChart',
+										    onclick: function () {
+										        this.print();
+										    }
+										}]
+					        },					        
 									legend_select_all: {
 										id: 'legend_select_all',
 										text: 'Deselect all',
-										y: 320,
+										y: 60,
+										x: 5,
 										onclick: function () {     
 												
 											if (this.series[0].visible == true){												

@@ -19,6 +19,8 @@ get "/" do
   end_.to_s.gsub!(/_/, ' ')
   ago.to_s.gsub!(/_/, ' ')  
 
+  Stat.degrade_year_old_data
+
   if time_window.present? && offset.present?
   	stats, end_, time_diff = Stat.time_window_and_offset(time_window, offset)
   elsif start.present? && length.present?

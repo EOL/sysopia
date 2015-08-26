@@ -64,5 +64,5 @@ Dir.glob(File.join(File.dirname(__FILE__), "models", "**", "*.rb")) do |app|
   require File.basename(app, ".*")
 end
 
-Sysopia.read_env
+#Sysopia.read_env
 Sysopia.db_connection

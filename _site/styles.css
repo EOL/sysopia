@@ -11,8 +11,8 @@
 
 body,div,
 h1,h2,p,
-ol,ul,li {
-
+ul {
+  margin-top: 0;
 }
 
 @-webkit-viewport { width: device-width; }

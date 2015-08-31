@@ -1,28 +1,28 @@
 #cssmenu.range_selector
 	%ul
 		%li
-			%a{:href => "/?start=24_hours_ago", :class => "24_hours_ago" }
+			%a{:href => "/?page=24_hours_ago", :class => "24_hours_ago" }
 				%span Last 24 Hours   
 		%li
-			%a{:href => "/?start=7_days_ago", :class => "7_days_ago" }
+			%a{:href => "/?page=7_days_ago", :class => "7_days_ago" }
 				%span Last 7 Days
 		%li
-			%a{:href => "/?start=30_days_ago", :class => "30_days_ago" }
+			%a{:href => "/?page=30_days_ago", :class => "30_days_ago" }
 				%span Last 30 Days
 		%li
-			%a{:href => "/?start=#{Date.today.beginning_of_month.last_month.strftime('%d-%m-%Y')}&end=#{Date.today.end_of_month.last_month.strftime('%d-%m-%Y')}&page=last_month", :class => "last_month" }
+			%a{:href => "/?start=#{Date.today.beginning_of_month.last_month.strftime('%Y-%m-%d')}&end=#{Date.today.end_of_month.last_month.strftime('%Y-%m-%d')}&page=last_month", :class => "last_month" }
 				%span Last Month   
 		%li
-			%a{:href => "/?start=#{Time.now.strftime('%d-%m-%Y')}&page=today", :class => "today" }
+			%a{:href => "/?start=#{Time.now.strftime('%Y-%m-%d')}&page=today", :class => "today" }
 				%span Today
 		%li
-			%a{:href => "/?start=#{(Time.now - Unit.new('1day')).strftime('%d-%m-%Y')}&end=#{(Time.now).strftime('%d-%m-%Y')}&page=yesterday", :class => "yesterday" }
+			%a{:href => "/?start=#{(Time.now - Unit.new('1day')).strftime('%Y-%m-%d')}&end=#{(Time.now).strftime('%Y-%m-%d')}&page=yesterday", :class => "yesterday" }
 				%span Yesterday
 		%li
-			%a{:href => "/?start=#{Date.today.beginning_of_month.strftime('%d-%m-%Y')}&page=this_month", :class => "this_month" }
+			%a{:href => "/?start=#{Date.today.beginning_of_month.strftime('%Y-%m-%d')}&page=this_month", :class => "this_month" }
 				%span This Month     
 		%li.last
-			%a{:href => "/?start=#{Date.today.beginning_of_year.strftime('%d-%m-%Y')}&page=this_year", :class => "this_year" }
+			%a{:href => "/?start=#{Date.today.beginning_of_year.strftime('%Y-%m-%d')}&page=this_year", :class => "this_year" }
 				%span This Year
 				
 
@@ -30,10 +30,12 @@
 
 	$( document ).ready(function() {    
 		if(document.location.search.length) {  
-			var page = url('?page') || url('?start')
-			var list_item = $('#cssmenu .'+page).parent()     
-			list_item.addClass("active")      
-			$('#cssmenu').prepend('<div id="menu-button">'+ list_item.find("a").html() +'</div>');
+			var page = url('?page')
+			if (page){				
+				var list_item = $('#cssmenu .'+page).parent()     
+				list_item.addClass("active")      
+				$('#cssmenu').prepend('<div id="menu-button">'+ list_item.find("a").html() +'</div>');
+			}
 		}
 		else{
 			var first_list_item = $('#cssmenu').find("ul li").first()
@@ -60,9 +62,9 @@
 
 	var matrics_data = #{@matrics_data} 
 	var real_time = #{@real_time} 
-	var previous_timestamp = #{@previous_timestamp} 
+	var previous_timestamp = #{@previous_timestamp} 	
 	
-	if (real_time){		
+	if (real_time == true){		
 		setInterval(function () {
 			$.get("?start="+previous_timestamp, function(data, status){        										
 				previous_timestamp = data.previous_timestamp       

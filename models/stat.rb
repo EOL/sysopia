@@ -13,8 +13,9 @@ class Stat < ActiveRecord::Base
       end
     end
 
-    def time_window_and_offset(time_window, offset, stat = nil)
-      end_ = Time.now - Unit.new(offset)
+    def time_window_and_offset(time_window, offset = nil, stat = nil)
+      end_ = Time.now
+      end_ = Time.now - Unit.new(offset) if time_window_and_offset
       start = end_ - Unit.new(time_window)
       return last_period(start, end_, stat)
     end
@@ -25,7 +26,7 @@ class Stat < ActiveRecord::Base
       return last_period(start, end_, stat)
     end
 
-    def start_and_end(start, end_, timestamp = nil, stat = nil)      
+    def start_and_end(start, end_, timestamp = nil, stat = nil)            
       start = epoch?(start) ? Time.at(start.to_i) : Chronic.parse(start, :endian_precedence => :little)     
       end_ = epoch?(end_) ? Time.at(end_.to_i) : Chronic.parse((end_ || Time.now.to_s), :endian_precedence => :little)            
       return last_period(start, end_, stat)

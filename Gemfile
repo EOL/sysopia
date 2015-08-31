@@ -17,6 +17,7 @@ gem "haml", "~> 4.0"
 gem "childprocess", "~> 0.5"
 gem "ruby-units"
 gem "chronic"
+gem 'github-pages'
 
 group :development do
   gem "byebug", "~> 3.5"

@@ -1,13 +1,13 @@
-session_secret: adadasdasfasfasfasfasfasfasfasfa
-timezone_offset: 0
+session_secret: <%= ENV["SYSOPIA_SESSION_SECRET"] %>
+timezone_offset: <%= ENV["SYSOPIA_TIMEZONE_OFFSET"] %>
 database:
   common: &common
     adapter: mysql2
     encoding: utf8
     reconnect: true
-    host: localhost
-    username: root
-    password: root
+    host: <%= ENV["SYSOPIA_DB_HOST"] %>
+    username: <%= ENV["SYSOPIA_DB_USERNAME"] %>
+    password: <%= ENV["SYSOPIA_DB_PASSWORD"] %>
 
   development:
     <<: *common

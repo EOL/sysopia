@@ -70,6 +70,12 @@ p.intro {
   font-weight: bold;
 }
 
+p.intro_sub {
+  font-size: 1em;
+  color: #555;
+  font-weight: bold;
+}
+
 a {
   color: #f4f4f4;
   text-decoration: none;

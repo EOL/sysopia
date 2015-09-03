@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150811170446) do
+ActiveRecord::Schema.define(version: 20150903142322) do
 
   create_table "comps", force: :cascade do |t|
     t.string  "sensu_name",   limit: 255
@@ -21,6 +21,12 @@ ActiveRecord::Schema.define(version: 20150811170446) do
   end
 
   add_index "comps", ["sensu_name"], name: "index_comps_on_sensu_name", using: :btree
+
+  create_table "minutes", force: :cascade do |t|
+    t.integer "minutes", limit: 4
+  end
+
+  add_index "minutes", ["minutes"], name: "index_minutes_on_minutes", using: :btree
 
   create_table "stats", force: :cascade do |t|
     t.integer "timestamp",           limit: 4
